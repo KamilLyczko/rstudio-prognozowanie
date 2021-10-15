@@ -9,7 +9,8 @@ covid_poland_ts7 <- ts(
         covid_poland$deaths,
         covid_poland$tests),
   names = c("confirmed", "deaths", "tests"),
-  frequency = 7)
+  frequency = 7,
+  start = c(1, 5)) #5 dzieñ tygodnia w R to czwartek, numeracja od niedzieli jako 1
 covid_poland_ts365 <- ts(
   cbind(covid_poland$confirmed,
         covid_poland$deaths,
