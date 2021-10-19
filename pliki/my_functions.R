@@ -1,4 +1,4 @@
-function(date) {
+day_of_year_number <- function(date) {
   date <- as.Date(date)
   month_number <- as.numeric(format(date, "%m"))
   day_number <- as.numeric(format(date, "%d"))
@@ -18,5 +18,3 @@ function(date) {
 weekly_freq_day_number <- function(obs_num) {
   return(c(((obs_num + 4) %/% 7) + 1, (obs_num + 4) %% 7)) #dodawanie 4 ze wzglêdu na pierwsz¹ obserwacjê (5 dzieñ tygodnia)
 }
-
-
