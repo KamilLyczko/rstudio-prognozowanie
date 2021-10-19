@@ -21,43 +21,51 @@ plot(deaths7_4, main = "Wykres czasowy œmierci do IV fali", xlab = "tydzieñ", yl
 #wykresy sezonowe
 ggseasonplot(confirmed7_1, year.labels = TRUE, year.labels.left = TRUE) +
   ggtitle("Wykres sezonowy zachorowañ do I fali") + xlab("dzieñ tygodnia") + ylab("liczba zachorowañ")
-ggseasonplot(confirmed7_1, polar = TRUE, main = "Wykres sezonowy zachorowañ do I fali", xlab = "")
+ggseasonplot(confirmed7_1, polar = TRUE, main = "Wykres sezonowy zachorowañ do I fali", xlab = "") +
+  labs(color = "tydzieñ")
 ggsubseriesplot(confirmed7_1) +
   ggtitle("Podwykresy sezonowe zachorowañ do I fali") + xlab("dzieñ tygodnia") + ylab("liczba zachorowañ")
 ggseasonplot(confirmed7_2, year.labels = TRUE, year.labels.left = TRUE) +
   ggtitle("Wykres sezonowy zachorowañ do II fali") + xlab("dzieñ tygodnia") + ylab("liczba zachorowañ")
-ggseasonplot(confirmed7_2, polar = TRUE, main = "Wykres sezonowy zachorowañ do II fali", xlab = "")
+ggseasonplot(confirmed7_2, polar = TRUE, main = "Wykres sezonowy zachorowañ do II fali", xlab = "") +
+  labs(color = "tydzieñ")
 ggsubseriesplot(confirmed7_2) +
   ggtitle("Podwykresy sezonowe zachorowañ do II fali") + xlab("dzieñ tygodnia") + ylab("liczba zachorowañ")
 ggseasonplot(confirmed7_3, year.labels = TRUE, year.labels.left = TRUE) +
   ggtitle("Wykres sezonowy zachorowañ do III fali") + xlab("dzieñ tygodnia") + ylab("liczba zachorowañ")
-ggseasonplot(confirmed7_3, polar = TRUE, main = "Wykres sezonowy zachorowañ do III fali", xlab = "")
+ggseasonplot(confirmed7_3, polar = TRUE, main = "Wykres sezonowy zachorowañ do III fali", xlab = "") + 
+  labs(color = "tydzieñ")
 ggsubseriesplot(confirmed7_3) +
   ggtitle("Podwykresy sezonowe zachorowañ do III fali") + xlab("dzieñ tygodnia") + ylab("liczba zachorowañ")
 ggseasonplot(confirmed7_4, year.labels = TRUE, year.labels.left = TRUE) +
   ggtitle("Wykres sezonowy zachorowañ do IV fali") + xlab("dzieñ tygodnia") + ylab("liczba zachorowañ")
-ggseasonplot(confirmed7_4, polar = TRUE, main = "Wykres sezonowy zachorowañ do IV fali", xlab = "")
+ggseasonplot(confirmed7_4, polar = TRUE, main = "Wykres sezonowy zachorowañ do IV fali", xlab = "") +
+  labs(color = "tydzieñ")
 ggsubseriesplot(confirmed7_4) +
   ggtitle("Podwykresy sezonowe zachorowañ do IV fali") + xlab("dzieñ tygodnia") + ylab("liczba zachorowañ")
 
 ggseasonplot(deaths7_1, year.labels = TRUE, year.labels.left = TRUE) +
   ggtitle("Wykres sezonowy œmierci do I fali") + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
-ggseasonplot(deaths7_1, polar = TRUE, main = "Wykres sezonowy œmierci do I fali", xlab = "")
+ggseasonplot(deaths7_1, polar = TRUE, main = "Wykres sezonowy œmierci do I fali", xlab = "") +
+  labs(color = "tydzieñ")
 ggsubseriesplot(deaths7_1) +
   ggtitle("Podwykresy sezonowe œmierci do I fali") + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
 ggseasonplot(deaths7_2, year.labels = TRUE, year.labels.left = TRUE) +
   ggtitle("Wykres sezonowy œmierci do II fali") + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
-ggseasonplot(deaths7_2, polar = TRUE, main = "Wykres sezonowy œmierci do II fali", xlab = "")
+ggseasonplot(deaths7_2, polar = TRUE, main = "Wykres sezonowy œmierci do II fali", xlab = "") +
+  labs(color = "tydzieñ")
 ggsubseriesplot(deaths7_2) +
   ggtitle("Podwykresy sezonowe œmierci do II fali") + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
 ggseasonplot(deaths7_3, year.labels = TRUE, year.labels.left = TRUE) +
   ggtitle("Wykres sezonowy œmierci do III fali") + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
-ggseasonplot(deaths7_3, polar = TRUE, main = "Wykres sezonowy œmierci do III fali", xlab = "")
+ggseasonplot(deaths7_3, polar = TRUE, main = "Wykres sezonowy œmierci do III fali", xlab = "") + 
+  labs(color = "tydzieñ")
 ggsubseriesplot(deaths7_3) +
   ggtitle("Podwykresy sezonowe œmierci do III fali") + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
 ggseasonplot(deaths7_4, year.labels = TRUE, year.labels.left = TRUE) +
   ggtitle("Wykres sezonowy œmierci do IV fali") + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
-ggseasonplot(deaths7_4, polar = TRUE, main = "Wykres sezonowy œmierci do IV fali", xlab = "")
+ggseasonplot(deaths7_4, polar = TRUE, main = "Wykres sezonowy œmierci do IV fali", xlab = "") +
+  labs(color = "tydzieñ")
 ggsubseriesplot(deaths7_4) +
   ggtitle("Podwykresy sezonowe œmierci do IV fali") + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
 
@@ -99,4 +107,5 @@ ggPacf(deaths7_1)
 ggPacf(deaths7_2)
 ggPacf(deaths7_3)
 ggPacf(deaths7_4)
+
           
