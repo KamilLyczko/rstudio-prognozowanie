@@ -108,4 +108,13 @@ ggPacf(deaths7_2)
 ggPacf(deaths7_3)
 ggPacf(deaths7_4)
 
+c_time_series <- list(confirmed7_1, confirmed7_2, confirmed7_3, confirmed7_4)
+d_time_series <- list(deaths7_1, deaths7_2, deaths7_3, deaths7_4)
+
+for (i in 1:4) {
+  tsdisplay(c_time_series[[i]], main = paste("Wykresy dla szeregu czasowego zaka¿eñ dla ", i, " fali"))
+  tsdisplay(d_time_series[[i]], main = paste("Wykresy dla szeregu czasowego œmierci dla ", i, " fali"))
+}
+
+rm(c_time_series, d_time_series, i)
           
