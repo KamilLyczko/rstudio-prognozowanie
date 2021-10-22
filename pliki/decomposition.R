@@ -1,24 +1,28 @@
-decom_a <- decompose(data7$confirmed, type = "additive")
-decom_m <- decompose(data7$confirmed, type = "multiplicative")
-p_a <- autoplot(decom_a)
-p_m <- autoplot(decom_m)
-grid.arrange(grobs = list(p_a, p_m), ncol = 2)
+text_size <- 7
 
-decom_a1 <- decompose(confirmed7_1, type = "additive")
-decom_m1 <- decompose(confirmed7_1, type = "multiplicative")
-p_a1 <- autoplot(decom_a1)
-p_m1 <- autoplot(decom_m1)
-grid.arrange(grobs = list(p_a1, p_m1), ncol = 2)
+for (i in 1:4) {
+  decom_c_a <- decompose(c_time_series[[i]], type = "additive")
+  decom_c_m <- decompose(c_time_series[[i]], type = "multiplicative")
+  title_c <- "Dekompozycja szeregu czasowego zaka¿eñ dla "
+  c_plot_a <- autoplot(decom_c_a) +
+    labs(title = paste(title_c, i, " fali - model addytywny")) +
+    theme(plot.title = element_text(size = text_size))
+  c_plot_m <- autoplot(decom_c_m) +
+    labs(title = paste(title_c, i, " fali - model multiplikatywny")) +
+    theme(plot.title = element_text(size = text_size))
+  
+  decom_d_a <- decompose(d_time_series[[i]], type = "additive")
+  decom_d_m <- decompose(d_time_series[[i]], type = "multiplicative")
+  title_d <- "Dekompozycja szeregu czasowego œmierci dla "
+  d_plot_a <- autoplot(decom_d_a) +
+    labs(title = paste(title_d, i, " fali - model addytywny")) +
+    theme(plot.title = element_text(size = text_size))
+  d_plot_m <- autoplot(decom_d_m) +
+    labs(title = paste(title_d, i, " fali - model multiplikatywny")) +
+    theme(plot.title = element_text(size = text_size))
+  
+  plots <- list(c_plot_a, c_plot_m, d_plot_a, d_plot_m)
+  grid.arrange(grobs = plots, ncol = 2)
+}
 
-decom_a2 <- decompose(confirmed7_2, type = "additive")
-decom_m2 <- decompose(confirmed7_2, type = "multiplicative")
-p_a2 <- autoplot(decom_a2)
-p_m2 <- autoplot(decom_m2)
-grid.arrange(grobs = list(p_a2, p_m2), ncol = 2)
-
-decom_a3 <- decompose(confirmed7_3, type = "additive")
-decom_m3 <- decompose(confirmed7_3, type = "multiplicative")
-p_a3 <- autoplot(decom_a3)
-p_m3 <- autoplot(decom_m3)
-grid.arrange(grobs = list(p_a3, p_m3), ncol = 2)
-
+rm(c_plot_a, d_plot_a, c_plot_m, d_plot_m, decom_c_a, decom_c_m, title_c, decom_d_a, decom_d_m, title_d, plots, i, text_size)
