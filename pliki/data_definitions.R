@@ -19,9 +19,9 @@ data <- data.frame(
   )
 )
 
-confirmed <- data$confirmed
-deaths <- data$deaths
-tests <- data$tests
+confirmed <- data$confirmed #szereg czasowy liczby zaka¿eñ
+deaths <- data$deaths       #szereg czasowy liczby œmierci
+tests <- data$tests         #szereg czasowy liczby testów
 
 #szeregi czasowe dla I fali (od 05.03.2020 do 05.08.2020)
 confirmed1 <- window(confirmed, end = weekly_freq_day_number(154))
