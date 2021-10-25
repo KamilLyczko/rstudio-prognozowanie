@@ -23,19 +23,19 @@ confirmed <- data$confirmed #szereg czasowy liczby zaka¿eñ
 deaths <- data$deaths       #szereg czasowy liczby œmierci
 tests <- data$tests         #szereg czasowy liczby testów
 
-#szeregi czasowe dla I fali (od 05.03.2020 do 05.08.2020)
-confirmed1 <- window(confirmed, end = weekly_freq_day_number(154))
-deaths1 <- window(deaths, end = weekly_freq_day_number(154))
-tests1 <- window(tests, end = weekly_freq_day_number(154))
-#szeregi czasowe dla II fali (od 05.03.2020 do 20.10.2020)
-confirmed2 <- window(confirmed, end = weekly_freq_day_number(230))
-deaths2 <- window(deaths, end = weekly_freq_day_number(230))
-tests2 <- window(tests, end = weekly_freq_day_number(230))
-#szeregi czasowe dla III fali (od 05.03.2020 do 15.03.2021)
-confirmed3 <- window(confirmed, end = weekly_freq_day_number(376))
-deaths3 <- window(deaths, end = weekly_freq_day_number(376))
-tests3 <- window(tests, end = weekly_freq_day_number(376))
-#szeregi czasowe dla IV fali (od 05.03.2020 do 30.09.2021)
+#szeregi czasowe dla I fali (od 05.03.2020 do 04.09.2020)
+confirmed1 <- window(confirmed, end = weekly_freq_day_number(184))
+deaths1 <- window(deaths, end = weekly_freq_day_number(184))
+tests1 <- window(tests, end = weekly_freq_day_number(184))
+#szeregi czasowe dla II fali (od 05.03.2020 do 19.11.2020)
+confirmed2 <- window(confirmed, end = weekly_freq_day_number(260))
+deaths2 <- window(deaths, end = weekly_freq_day_number(260))
+tests2 <- window(tests, end = weekly_freq_day_number(260))
+#szeregi czasowe dla III fali (od 05.03.2020 do 14.04.2021)
+confirmed3 <- window(confirmed, end = weekly_freq_day_number(406))
+deaths3 <- window(deaths, end = weekly_freq_day_number(406))
+tests3 <- window(tests, end = weekly_freq_day_number(406))
+#szeregi czasowe dla IV fali (od 05.03.2020 do 25.10.2021)
 confirmed4 <- confirmed
 deaths4 <- deaths
 tests4 <- tests
