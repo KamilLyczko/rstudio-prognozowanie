@@ -4,13 +4,42 @@ plot(confirmed2, main = "Wykres czasowy zaka¿eñ do II fali", xlab = "tydzieñ", y
 plot(confirmed3, main = "Wykres czasowy zaka¿eñ do III fali", xlab = "tydzieñ", ylab = "liczba zaka¿eñ")
 plot(confirmed4, main = "Wykres czasowy zaka¿eñ do IV fali", xlab = "tydzieñ", ylab = "liczba zaka¿eñ")
 
+x_labs <- c(seq(data$date[1], data$date[length(data$date)], 30))
+x_labs[length(x_labs) + 1] <- data$date[length(data$date)]
+
+ggplot(data = data, aes(date, confirmed)) + 
+  geom_line() +
+  labs(title = "Wykres czasowy liczby zaka¿eñ", x = "data", y = "liczba zaka¿eñ") +
+  scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
+  theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
+
+ggplot(data = data, aes(date, deaths)) + 
+  geom_line() +
+  labs(title = "Wykres czasowy liczby œmierci", x = "data", y = "liczba œmierci") +
+  scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
+  theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
+
+ggplot(data = data, aes(date, tests)) + 
+  geom_line() +
+  labs(title = "Wykres czasowy liczby testów", x = "data", y = "liczba testóW") +
+  scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
+  theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
+
+
+
+#test_lab <- c(seq(data$date[1], data$date[600], 30))
+#plot(data$date, confirmed, type = "l", xaxt = "n")
+#axis(1, test_lab, format(test_lab, "%Y-%m-%d"), las = 2, cex.axis = 0.7)
+
 plot(deaths1, main = "Wykres czasowy œmierci do I fali", xlab = "tydzieñ", ylab = "liczba œmierci")
 plot(deaths2, main = "Wykres czasowy œmierci do II fali", xlab = "tydzieñ", ylab = "liczba œmierci")
 plot(deaths3, main = "Wykres czasowy œmierci do III fali", xlab = "tydzieñ", ylab = "liczba œmierci")
 plot(deaths4, main = "Wykres czasowy œmierci do IV fali", xlab = "tydzieñ", ylab = "liczba œmierci")
 
 #wykresy sezonowe
-ggseasonplot(confirmed1, year.labels = TRUE, year.labels.left = TRUE) +
+x_values <- c("Nie", "Pon", "Wto", "Œro", "Czw", "Pi¹", "Sob")
+
+ggseasonplot(confirmed1, year.labels = TRUE, year.labels.left = TRUE, season.labels = x_values) +
   ggtitle("Wykres sezonowy zaka¿eñ do I fali") + xlab("dzieñ tygodnia") + ylab("liczba zaka¿eñ")
 ggseasonplot(confirmed1, polar = TRUE, main = "Wykres sezonowy zaka¿eñ do I fali", xlab = "") +
   labs(color = "tydzieñ")
@@ -84,5 +113,5 @@ for (i in 1:4) {
   tsdisplay(d_time_series[[i]], main = paste("Wykresy dla szeregu czasowego œmierci dla ", i, " fali"))
 }
 
-
+rm(x_labs, x_values)
           
