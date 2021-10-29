@@ -113,5 +113,5 @@ for (i in 1:4) {
   tsdisplay(d_time_series[[i]], main = paste("Wykresy dla szeregu czasowego œmierci dla ", i, " fali"))
 }
 
-rm(x_labs, x_values)
+rm(x_labs, x_values, i)
           
