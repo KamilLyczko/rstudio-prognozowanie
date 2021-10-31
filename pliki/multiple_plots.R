@@ -5,7 +5,7 @@ tests_time_plots <- list()
 confirmed_season_plots <- list()
 deaths_season_plots <- list()
 tests_season_plots <- list()
-title_size <- 12
+title_size <- 10
 i <- 1
 begin <- 1;
 finish <- begin + 99
