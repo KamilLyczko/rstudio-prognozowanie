@@ -63,3 +63,31 @@ get_date_of_obs_ts <- function(i) {
   return(data$date[obs_num])
 }
 
+#funkcja zwracaj¹ca prognozy metod naiwnych dla podanego szeregu i horyzontu
+naive_forecasts <- function(ts, h) {
+  naive_forecast <- naive(ts, h = h)
+  snaive_forecast <- snaive(ts, h = h)
+  drift_forecast <- rwf(ts, h = h, drift = TRUE)
+  
+  forecasts <- list(naive = naive_forecast, snaive = snaive_forecast, drift = drift_forecast)
+  return(forecasts)
+}
+
+#funkcja generuj¹ca wykres czasowy z szeregiem ucz¹cym i prognozami metod naiwnych
+generate_naive_forecasts_plot <- function(ts, forecasts, title = "", ylab = "") {
+  autoplot(ts) +
+    autolayer(forecasts$naive, series = "Prosta metoda naiwna", PI = FALSE) +
+    autolayer(forecasts$snaive, series = "Sezonowa metoda naiwna", PI = FALSE) +
+    autolayer(forecasts$drift, series = "Przyrostowa metoda naiwna", PI = FALSE) +
+    labs(title = title, x = "numer tygodnia", y = ylab, color = "Prognozy:")
+}
+
+#funkcja generuj¹ca wykres czasowy z szeregiem testowym i prognozami metod naiwnych
+generate_naive_test_comparison_plot <- function(ts, forecasts, title = "", ylab = "") {
+  autoplot(ts) +
+    autolayer(forecasts$naive, series = "Prosta metoda naiwna", PI = FALSE) +
+    autolayer(forecasts$snaive, series = "Sezonowa metoda naiwna", PI = FALSE) +
+    autolayer(forecasts$drift, series = "Przyrostowa metoda naiwna", PI = FALSE) +
+    labs(title = title, x = "numer tygodnia", y = ylab, color = "Prognozy:")
+}
+
