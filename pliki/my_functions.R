@@ -91,3 +91,25 @@ generate_naive_test_comparison_plot <- function(ts, forecasts, title = "", ylab 
     labs(title = title, x = "numer tygodnia", y = ylab, color = "Prognozy:")
 }
 
+#funkcja obliczaj¹ca b³êdy ex post dla podanych prognoz i wartoœci testowych
+calculate_ex_post_errors <- function(forecast, test_ts) {
+  n <- length(test_ts)
+  me <- 0
+  mae <- 0
+  mse <- 0
+  mape <- 0
+  for(i in 1:n) {
+    e <- test_ts[i] - forecast$mean[i]
+    me <- me + e
+    mae <- mae + abs(e)
+    mse <- mse + e*e
+    mape <- mape + abs(e)/test_ts[i]
+  }
+  me <- me/n
+  mae <- mae/n
+  mse <- mse/n
+  rmse <- sqrt(mse)
+  mape <- mape/n*100
+  return(list(ME = me, MAE = mae, MSE = mse, RMSE = rmse, MAPE = mape))
+}
+
