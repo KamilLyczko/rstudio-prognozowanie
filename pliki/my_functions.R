@@ -37,7 +37,7 @@ calc_obs_num <- function(v) {
 
 #funkcja zwracaj¹ca czas obserwacji (wektor z numerem tygodnia i dnia)
 #argumentem jest liczba zmiennoprzecinkowa bêd¹ca indeksem w obiekcie ts
-calc_obs_time <- function(i) {
+calc_obs_week <- function(i) {
   week <- i %/% 1
   day <- round((i - week) * 7) + 1
   return(c(week, day))
@@ -59,10 +59,16 @@ get_date_of_obs_v <- function(v) {
 #funkcja zwracaj¹ca datê obserwacji
 #argument jako liczba zmiennoprzecinkowa bêd¹ca indeksem w obiekcie ts
 get_date_of_obs_ts <- function(i) {
-  obs_num <- calc_obs_num(calc_obs_time(i))
+  obs_num <- calc_obs_num(calc_obs_week(i))
   return(data$date[obs_num])
 }
 
+#funkcja zwracaj¹ca liczbê zmiennoprzecinkow¹ bêd¹c¹ indeksem w obiekcie ts
+#argument jako numer obserwacji
+get_index_of_obs <- function(ts, obs_num) {
+  return(time(ts)[obs_num])
+}
+ 
 #funkcja zwracaj¹ca prognozy metod naiwnych dla podanego szeregu i horyzontu
 naive_forecasts <- function(ts, h) {
   naive_forecast <- naive(ts, h = h)
@@ -111,5 +117,29 @@ calculate_ex_post_errors <- function(forecast, test_ts) {
   rmse <- sqrt(mse)
   mape <- mape/n*100
   return(list(ME = me, MAE = mae, MSE = mse, RMSE = rmse, MAPE = mape))
+}
+
+save_forecasts_to_csv <- function(forecast, file_name) {
+  intervals_list <- list()
+  for(i in 1:length(forecast$level)) {
+    intervals_list[[i]] <- data.frame(
+      forecast$lower[, i],
+      forecast$upper[, i]
+    )
+    names <- c(
+      paste("lower", forecast$level[i], "%", sep = ""),
+      paste("upper", forecast$level[i], "%", sep = "")
+      )
+    colnames(intervals_list[[i]]) <- names
+  }
+  start_date <- as.Date(get_date_of_obs_ts(get_index_of_obs(forecast$mean, 1)))
+  dates <- as.Date(c(start_date:(start_date+length(forecast$mean) - 1)))
+  df <- data.frame(
+    h = c(1:length(forecast$mean)),
+    date = format(dates, "%d.%m.%Y"),
+    prediction = forecast$mean
+  )
+  directory <- paste("data_sheets/", file_name, sep = "")
+  write.csv2(cbind(df, intervals_list), directory, row.names = FALSE)
 }
 

@@ -1,4 +1,4 @@
-data <- read.csv("data_poland.csv", sep = ";")
+data <- read.csv("data_sheets/data_poland.csv", sep = ";")
 
 data <- data.frame(
   date = as.Date(data$date, format = "%d.%m.%Y"),
