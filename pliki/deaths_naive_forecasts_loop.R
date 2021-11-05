@@ -5,14 +5,14 @@ for(i in 1:length(d_time_series)) {
   
   deaths_forecasts[[i]] <- naive_forecasts(train, 30)
   
-  plot_title1 <- paste("Prognozy metody naiwnej liczby œmierci dla ", i, " fali")
-  plot_title2 <- paste("Porównanie prognoz liczby œmierci z szeregiem testowym dla ", i, " fali")
+  plot_title1 <- paste("Prognozy metody naiwnej liczby œmierci dla", i, "fali")
+  plot_title2 <- paste("Porównanie prognoz liczby œmierci z szeregiem testowym dla", i, "fali")
   if(i != 4)
-    show(generate_naive_forecasts_plot(train, deaths_forecasts[[i]], plot_title1, "liczba œmierci"))
+    show(generate_naive_forecasts_plot2(train, deaths_forecasts[[i]], plot_title1, "liczba œmierci"))
   else
-    show(generate_naive_forecasts_plot(window(train, start = weekly_freq_day_number(500)), 
+    show(generate_naive_forecasts_plot2(window(train, start = weekly_freq_day_number(500)), 
                                        deaths_forecasts[[i]], plot_title1, "liczba œmierci"))
-  show(generate_naive_test_comparison_plot(test, deaths_forecasts[[i]], plot_title2, "liczba œmierci"))
+  show(generate_naive_test_comparison_plot2(test, deaths_forecasts[[i]], plot_title2, "liczba œmierci"))
 }
 
 rm(train, test, plot_title1, plot_title2, i, deaths_forecasts)
