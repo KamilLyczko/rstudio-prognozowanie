@@ -8,11 +8,12 @@ for(i in 1:length(c_time_series)) {
   plot_title1 <- paste("Prognozy metody naiwnej liczby zaka¿eñ dla ", i, " fali")
   plot_title2 <- paste("Porównanie prognoz liczby zaka¿eñ z szeregiem testowym dla ", i, " fali")
   if(i != 4)
-    show(generate_naive_forecasts_plot2(train, confirmed_forecasts[[i]], plot_title1, "liczba zaka¿eñ"))
+    plot1 <- generate_naive_forecasts_plot2(train, confirmed_forecasts[[i]], plot_title1, "liczba zaka¿eñ")
   else
-    show(generate_naive_forecasts_plot2(window(train, start = weekly_freq_day_number(500)), 
-                                       confirmed_forecasts[[i]], plot_title1, "liczba zaka¿eñ"))
-  show(generate_naive_test_comparison_plot2(test, confirmed_forecasts[[i]], plot_title2, "liczba zaka¿eñ"))
+    plot1 <- generate_naive_forecasts_plot2(window(train, start = weekly_freq_day_number(500)), 
+                                       confirmed_forecasts[[i]], plot_title1, "liczba zaka¿eñ")
+  plot2 <- generate_naive_test_comparison_plot2(test, confirmed_forecasts[[i]], plot_title2, "liczba zaka¿eñ")
+  grid.arrange(grobs = list(plot1, plot2), ncol = 1)
 }
 
-rm(train, test, plot_title1, plot_title2, i, confirmed_forecasts)
+rm(train, test, plot_title1, plot_title2, i, confirmed_forecasts, plot1, plot2)

@@ -139,26 +139,26 @@ generate_naive_test_comparison_plot2 <- function(ts, forecasts, title = "", ylab
     theme(plot.title = element_text(size = 10), axis.text.x = element_markdown(angle = 45, hjust = 1))
 }
 
+
 #funkcja obliczaj¹ca b³êdy ex post dla podanych prognoz i wartoœci testowych
 calculate_ex_post_errors <- function(forecast, test_ts) {
   n <- length(test_ts)
-  me <- 0
-  mae <- 0
-  mse <- 0
-  mape <- 0
+  errors <- data.frame(
+    ME = 0, MAE = 0, MSE = 0, RMSE = 0, MAPE = 0
+  )
   for(i in 1:n) {
     e <- test_ts[i] - forecast$mean[i]
-    me <- me + e
-    mae <- mae + abs(e)
-    mse <- mse + e*e
-    mape <- mape + abs(e)/test_ts[i]
+    errors["ME"] <- errors["ME"] + e
+    errors["MAE"] <- errors["MAE"] + abs(e)
+    errors["MSE"] <- errors["MSE"] + e*e
+    errors["MAPE"] <- errors["MAPE"] + abs(e)/test_ts[i]
   }
-  me <- me/n
-  mae <- mae/n
-  mse <- mse/n
-  rmse <- sqrt(mse)
-  mape <- mape/n*100
-  return(list(ME = me, MAE = mae, MSE = mse, RMSE = rmse, MAPE = mape))
+  errors["ME"] <- errors["ME"]/n
+  errors["MAE"] <- errors["MAE"]/n
+  errors["MSE"] <- errors["MSE"]/n
+  errors["RMSE"] <- sqrt(errors["MSE"])
+  errors["MAPE"] <- errors["MAPE"]/n*100
+  return(errors)
 }
 
 save_forecasts_to_csv <- function(forecast, file_name) {
