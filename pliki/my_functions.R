@@ -143,21 +143,25 @@ generate_naive_test_comparison_plot2 <- function(ts, forecasts, title = "", ylab
 #funkcja obliczaj¹ca b³êdy ex post dla podanych prognoz i wartoœci testowych
 calculate_ex_post_errors <- function(forecast, test_ts) {
   n <- length(test_ts)
+  j <- 0
   errors <- data.frame(
-    ME = 0, MAE = 0, MSE = 0, RMSE = 0, MAPE = 0
+    ME = 0, MAE = 0, MSE = 0, RMSE = 0, MAPE = 0, row.names = "value"
   )
   for(i in 1:n) {
     e <- test_ts[i] - forecast$mean[i]
     errors["ME"] <- errors["ME"] + e
     errors["MAE"] <- errors["MAE"] + abs(e)
     errors["MSE"] <- errors["MSE"] + e*e
-    errors["MAPE"] <- errors["MAPE"] + abs(e)/test_ts[i]
+    if(test_ts[i] != 0) {
+      errors["MAPE"] <- errors["MAPE"] + abs(e)/test_ts[i]
+      j <- j + 1
+    }
   }
   errors["ME"] <- errors["ME"]/n
   errors["MAE"] <- errors["MAE"]/n
   errors["MSE"] <- errors["MSE"]/n
   errors["RMSE"] <- sqrt(errors["MSE"])
-  errors["MAPE"] <- errors["MAPE"]/n*100
+  errors["MAPE"] <- errors["MAPE"]/j*100
   return(errors)
 }
 
