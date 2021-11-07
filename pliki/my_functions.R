@@ -165,6 +165,7 @@ calculate_ex_post_errors <- function(forecast, test_ts) {
   return(errors)
 }
 
+#funkcja zapisuj¹ca prognozy do pliku csv o podanej nazwie
 save_forecasts_to_csv <- function(forecast, file_name) {
   intervals_list <- list()
   for(i in 1:length(forecast$level)) {
@@ -187,5 +188,11 @@ save_forecasts_to_csv <- function(forecast, file_name) {
   )
   directory <- paste("data_sheets/", file_name, sep = "")
   write.csv2(cbind(df, intervals_list), directory, row.names = FALSE)
+}
+
+#funkcja zapisuj¹ca podan¹ ramkê danych z b³êdami do pliku csv o podanej nazwie
+save_df_to_csv <- function(df, file_name) {
+  directory <- paste("data_sheets/", file_name, sep = "")
+  write.csv2(df, directory, row.names = FALSE)
 }
 
