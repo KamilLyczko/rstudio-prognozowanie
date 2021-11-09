@@ -42,3 +42,4 @@ tests4 <- tests
 
 c_time_series <- list(confirmed1, confirmed2, confirmed3, confirmed4)
 d_time_series <- list(deaths1, deaths2, deaths3, deaths4)
+t_time_series <- list(tests1, tests2, tests3, tests4)
