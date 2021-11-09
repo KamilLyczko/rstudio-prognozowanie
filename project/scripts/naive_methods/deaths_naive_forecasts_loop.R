@@ -5,21 +5,21 @@ for(i in 1:length(d_time_series)) {
   
   deaths_forecasts[[i]] <- naive_forecasts(train, 30)
   
-  plot_title1 <- paste("Prognozy metody naiwnej liczby œmierci dla", i, "fali")
-  plot_title2 <- paste("Porównanie prognoz liczby œmierci z szeregiem testowym dla", i, "fali")
+  plot_title1 <- paste("Prognozy metody naiwnej liczby Å›mierci dla", i, "fali")
+  plot_title2 <- paste("PorÃ³wnanie prognoz liczby Å›mierci z szeregiem testowym dla", i, "fali")
   if(i != 4)
-    plot1 <- generate_naive_forecasts_plot2(train, deaths_forecasts[[i]], plot_title1, "liczba œmierci")
+    plot1 <- generate_naive_forecasts_plot2(train, deaths_forecasts[[i]], plot_title1, "liczba Å›mierci")
   else
     plot1 <- generate_naive_forecasts_plot2(window(train, start = weekly_freq_day_number(500)), 
-                                       deaths_forecasts[[i]], plot_title1, "liczba œmierci")
-  plot2 <- generate_naive_test_comparison_plot2(test, deaths_forecasts[[i]], plot_title2, "liczba œmierci")
+                                       deaths_forecasts[[i]], plot_title1, "liczba Å›mierci")
+  plot2 <- generate_naive_test_comparison_plot2(test, deaths_forecasts[[i]], plot_title2, "liczba Å›mierci")
   grid.arrange(grobs = list(plot1, plot2), ncol = 1)
   errors_naive <- calculate_ex_post_errors(deaths_forecasts[[i]]$naive, test)
   errors_snaive <- calculate_ex_post_errors(deaths_forecasts[[i]]$snaive, test)
   errors_drift <- calculate_ex_post_errors(deaths_forecasts[[i]]$drift, test)
   errors <- rbind(errors_naive, errors_snaive, errors_drift)
-  save_df_to_csv(errors, paste0("d", i, "_naive_methods_errors.csv"))
-  cat("Mierniki trafnoœci prognoz wygas³ych liczb œmierci dla", i, "fali\n")
+  save_df_to_csv(errors, paste0("d", i, "_naive_methods_errors.csv"), "naive_methods")
+  cat("Mierniki trafnoÅ›ci prognoz wygasÅ‚ych liczb Å›mierci dla", i, "fali\n")
   cat("prosta metoda naiwna:\n")
   show(errors_naive)
   cat("sezonowa metoda naiwna:\n")
