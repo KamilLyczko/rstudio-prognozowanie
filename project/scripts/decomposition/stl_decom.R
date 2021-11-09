@@ -15,8 +15,8 @@ deaths_m_ts <- cbind(deaths,
 col_names <- c("data", "trend", "seasonal", "remainder")
 colnames(conf_m_ts) <- col_names
 colnames(deaths_m_ts) <- col_names
-plot.ts(conf_m_ts, main = "Dekompozycja szeregu czasowego liczby zaka¿eñ", xlab = "tydzieñ")
-plot.ts(deaths_m_ts, main = "Dekompozycja szeregu czasowego liczby œmierci", xlab = "tydzieñ")
+plot.ts(conf_m_ts, main = "Dekompozycja szeregu czasowego liczby zakaÅ¼eÅ„", xlab = "tydzieÅ„")
+plot.ts(deaths_m_ts, main = "Dekompozycja szeregu czasowego liczby Å›mierci", xlab = "tydzieÅ„")
 rm(log_confirmed, log_deaths, decom_c, decom_d, conf_m_ts, deaths_m_ts, col_names )
 
 

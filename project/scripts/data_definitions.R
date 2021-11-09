@@ -5,7 +5,7 @@ data <- data.frame(
   confirmed = ts(
     data$confirmed,
     frequency = 7,
-    start = c(1, 5) #5 dzieñ tygodnia w R to czwartek, numeracja od niedzieli jako 1
+    start = c(1, 5) #5 dzieÅ„ tygodnia w R to czwartek, numeracja od niedzieli jako 1
   ),
   deaths = ts(
     data$deaths,
@@ -19,9 +19,9 @@ data <- data.frame(
   )
 )
 
-confirmed <- data$confirmed #szereg czasowy liczby zaka¿eñ
-deaths <- data$deaths       #szereg czasowy liczby œmierci
-tests <- data$tests         #szereg czasowy liczby testów
+confirmed <- data$confirmed #szereg czasowy liczby zaka?e?
+deaths <- data$deaths       #szereg czasowy liczby ?mierci
+tests <- data$tests         #szereg czasowy liczby test?w
 
 #szeregi czasowe dla I fali (od 05.03.2020 do 04.09.2020)
 confirmed1 <- window(confirmed, end = weekly_freq_day_number(184))

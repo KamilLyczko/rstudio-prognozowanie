@@ -27,49 +27,49 @@ weekly_freq_day_number <- function(obs_num) {
 }
 
 
-#funkcja zwracaj?ca numer obserwacji dla podanego numeru tygodnia i dnia
-#argument jako wektor dw?ch liczb (numer tygodnia, numer dnia)
+#funkcja zwracająca numer obserwacji dla podanego numeru tygodnia i dnia
+#argument jako wektor dwóch liczb (numer tygodnia, numer dnia)
 calc_obs_num <- function(v) { 
   offset <- c(1, 5)
   obs_num <- (v[1] - 1) * 7 + v[2] - offset[2] + 1
   return(obs_num)
 }
 
-#funkcja zwracaj?ca czas obserwacji (wektor z numerem tygodnia i dnia)
-#argumentem jest liczba zmiennoprzecinkowa b?d?ca indeksem w obiekcie ts
+#funkcja zwracająca czas obserwacji (wektor z numerem tygodnia i dnia)
+#argumentem jest liczba zmiennoprzecinkowa będąca indeksem w obiekcie ts
 calc_obs_week <- function(i) {
   week <- i %/% 1
   day <- round((i - week) * 7) + 1
   return(c(week, day))
 }
 
-#funkcja zwracaj?ca dat? obserwacji
+#funkcja zwracająca datę obserwacji
 #argument jako numer obserwacji
 get_date_of_obs_n <- function(obs_num) {
   return(data$date[obs_num])
 }
 
-#funkcja zwracaj?ca dat? obserwacji
-#argument jako wektor okre?laj?cy czas obserwacji (numer tygodnia, numer dnia)
+#funkcja zwracająca datę obserwacji
+#argument jako wektor określający czas obserwacji (numer tygodnia, numer dnia)
 get_date_of_obs_v <- function(v) {
   obs_num <- calc_obs_num(v)
   return(data$date[obs_num])
 }
 
-#funkcja zwracaj?ca dat? obserwacji
-#argument jako liczba zmiennoprzecinkowa b?d?ca indeksem w obiekcie ts
+#funkcja zwracająca datę obserwacji
+#argument jako liczba zmiennoprzecinkowa będąca indeksem w obiekcie ts
 get_date_of_obs_ts <- function(i) {
   obs_num <- calc_obs_num(calc_obs_week(i))
   return(data$date[obs_num])
 }
 
-#funkcja zwracaj?ca liczb? zmiennoprzecinkow? b?d?c? indeksem w obiekcie ts
+#funkcja zwracająca liczbę zmiennoprzecinkową będącą indeksem w obiekcie ts
 #argument jako numer obserwacji
 get_index_of_obs <- function(ts, obs_num) {
   return(time(ts)[obs_num])
 }
  
-#funkcja zwracaj?ca prognozy metod naiwnych dla podanego szeregu i horyzontu
+#funkcja zwracająca prognozy metod naiwnych dla podanego szeregu i horyzontu
 naive_forecasts <- function(ts, h) {
   naive_forecast <- naive(ts, h = h)
   snaive_forecast <- snaive(ts, h = h)
@@ -79,8 +79,8 @@ naive_forecasts <- function(ts, h) {
   return(forecasts)
 }
 
-#funkcja generuj?ca wykres czasowy z szeregiem ucz?cym i prognozami metod naiwnych
-#u?ywa funkcji autoplot(), umieszcza numery tygodni na osi x
+#funkcja generująca wykres czasowy z szeregiem uczącym i prognozami metod naiwnych
+#używa funkcji autoplot(), umieszcza numery tygodni na osi x
 generate_naive_forecasts_plot <- function(ts, forecasts, title = "", ylab = "") {
   autoplot(ts) +
     autolayer(forecasts$naive, series = "Prosta metoda naiwna", PI = FALSE) +
@@ -89,8 +89,8 @@ generate_naive_forecasts_plot <- function(ts, forecasts, title = "", ylab = "") 
     labs(title = title, x = "numer tygodnia", y = ylab, color = "Prognozy:")
 }
 
-#funkcja generuj?ca wykres czasowy z szeregiem testowym i prognozami metod naiwnych
-#u?ywa funkcji autoplot(), umieszcza numery tygodni na osi x
+#funkcja generująca wykres czasowy z szeregiem testowym i prognozami metod naiwnych
+#używa funkcji autoplot(), umieszcza numery tygodni na osi x
 generate_naive_test_comparison_plot <- function(ts, forecasts, title = "", ylab = "") {
   autoplot(ts) +
     autolayer(forecasts$naive, series = "Prosta metoda naiwna", PI = FALSE) +
@@ -99,8 +99,8 @@ generate_naive_test_comparison_plot <- function(ts, forecasts, title = "", ylab 
     labs(title = title, x = "numer tygodnia", y = ylab, color = "Prognozy:")
 }
 
-#funkcja generuj?ca wykres czasowy z szeregiem ucz?cym i prognozami metod naiwnych
-#u?ywa funkcji ggplot(), umieszcza daty na osi x
+#funkcja generująca wykres czasowy z szeregiem uczącym i prognozami metod naiwnych
+#używa funkcji ggplot(), umieszcza daty na osi x
 generate_naive_forecasts_plot2 <- function(ts, forecasts, title = "", ylab = "") {
   train_dates <- as.Date(c(seq(get_date_of_obs_ts(get_index_of_obs(ts, 1)),
                                get_date_of_obs_ts(get_index_of_obs(ts, length(ts))), 1)))
@@ -120,8 +120,8 @@ generate_naive_forecasts_plot2 <- function(ts, forecasts, title = "", ylab = "")
     theme(plot.title = element_text(size = 10), axis.text.x = element_markdown(angle = 45, hjust = 1))
 }
 
-#funkcja generuj?ca wykres czasowy z szeregiem testowym i prognozami metod naiwnych
-#u?ywa funkcji ggplot(), umieszcza daty na osi x
+#funkcja generująca wykres czasowy z szeregiem testowym i prognozami metod naiwnych
+#używa funkcji ggplot(), umieszcza daty na osi x
 generate_naive_test_comparison_plot2 <- function(ts, forecasts, title = "", ylab = "") {
   dates <- as.Date(c(seq(get_date_of_obs_ts(get_index_of_obs(ts, 1)),
                          get_date_of_obs_ts(get_index_of_obs(ts, length(ts))), 1)))
@@ -140,7 +140,7 @@ generate_naive_test_comparison_plot2 <- function(ts, forecasts, title = "", ylab
 }
 
 
-#funkcja obliczaj?ca b??dy ex post dla podanych prognoz i warto?ci testowych
+#funkcja obliczająca błędy ex post dla podanych prognoz i wartości testowych
 calculate_ex_post_errors <- function(forecast, test_ts) {
   n <- length(test_ts)
   j <- 0
@@ -165,7 +165,7 @@ calculate_ex_post_errors <- function(forecast, test_ts) {
   return(errors)
 }
 
-#funkcja zapisuj?ca prognozy do pliku csv o podanej nazwie
+#funkcja zapisująca prognozy do pliku csv o podanej nazwie w podanym podkatalogu
 save_forecasts_to_csv <- function(forecast, file_name, subdir = "") {
   intervals_list <- list()
   for(i in 1:length(forecast$level)) {
@@ -186,11 +186,13 @@ save_forecasts_to_csv <- function(forecast, file_name, subdir = "") {
     date = format(dates, "%d.%m.%Y"),
     prediction = forecast$mean
   )
-  directory <- paste("data_sheets/", file_name, sep = "")
+  if(stringi::stri_length(subdir) > 0)
+    subdir <- paste0(subdir, "/")
+  directory <- paste("data_sheets/", subdir, file_name, sep = "")
   write.csv2(cbind(df, intervals_list), directory, row.names = FALSE)
 }
 
-#funkcja zapisuj?ca podan? ramk? danych z b??dami do pliku csv o podanej nazwie
+#funkcja zapisująca podaną ramkę danych z błędami do pliku csv o podanej nazwie
 save_df_to_csv <- function(df, file_name, subdir = "") {
   if(stringi::stri_length(subdir) > 0)
     subdir <- paste0(subdir, "/")

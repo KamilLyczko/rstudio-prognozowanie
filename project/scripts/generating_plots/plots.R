@@ -1,27 +1,27 @@
 #wykresy czasowe
-plot(confirmed1, main = "Wykres czasowy zakaøeÒ do I fali", xlab = "tydzieÒ", ylab = "liczba zakaøeÒ")
-plot(confirmed2, main = "Wykres czasowy zakaøeÒ do II fali", xlab = "tydzieÒ", ylab = "liczba zakaøeÒ")
-plot(confirmed3, main = "Wykres czasowy zakaøeÒ do III fali", xlab = "tydzieÒ", ylab = "liczba zakaøeÒ")
-plot(confirmed4, main = "Wykres czasowy zakaøeÒ do IV fali", xlab = "tydzieÒ", ylab = "liczba zakaøeÒ")
+plot(confirmed1, main = "Wykres czasowy zaka≈ºe≈Ñ do I fali", xlab = "tydzie≈Ñ", ylab = "liczba zaka≈ºe≈Ñ")
+plot(confirmed2, main = "Wykres czasowy zaka≈ºe≈Ñ do II fali", xlab = "tydzie≈Ñ", ylab = "liczba zaka≈ºe≈Ñ")
+plot(confirmed3, main = "Wykres czasowy zaka≈ºe≈Ñ do III fali", xlab = "tydzie≈Ñ", ylab = "liczba zaka≈ºe≈Ñ")
+plot(confirmed4, main = "Wykres czasowy zaka≈ºe≈Ñ do IV fali", xlab = "tydzie≈Ñ", ylab = "liczba zaka≈ºe≈Ñ")
 
 x_labs <- c(seq(data$date[1], data$date[length(data$date)], 30))
 x_labs[length(x_labs) + 1] <- data$date[length(data$date)]
 
 ggplot(data = data, aes(date, confirmed)) + 
   geom_line() +
-  labs(title = "Wykres czasowy liczby zakaøeÒ", x = "data", y = "liczba zakaøeÒ") +
+  labs(title = "Wykres czasowy liczby zaka≈ºe≈Ñ", x = "data", y = "liczba zaka≈ºe≈Ñ") +
   scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
   theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
 
 ggplot(data = data, aes(date, deaths)) + 
   geom_line() +
-  labs(title = "Wykres czasowy liczby úmierci", x = "data", y = "liczba úmierci") +
+  labs(title = "Wykres czasowy liczby ≈õmierci", x = "data", y = "liczba ≈õmierci") +
   scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
   theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
 
 ggplot(data = data, aes(date, tests)) + 
   geom_line() +
-  labs(title = "Wykres czasowy liczby testÛw", x = "data", y = "liczba testÛW") +
+  labs(title = "Wykres czasowy liczby test√≥w", x = "data", y = "liczba test√≥W") +
   scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
   theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
 
@@ -31,76 +31,76 @@ ggplot(data = data, aes(date, tests)) +
 #plot(data$date, confirmed, type = "l", xaxt = "n")
 #axis(1, test_lab, format(test_lab, "%Y-%m-%d"), las = 2, cex.axis = 0.7)
 
-plot(deaths1, main = "Wykres czasowy úmierci do I fali", xlab = "tydzieÒ", ylab = "liczba úmierci")
-plot(deaths2, main = "Wykres czasowy úmierci do II fali", xlab = "tydzieÒ", ylab = "liczba úmierci")
-plot(deaths3, main = "Wykres czasowy úmierci do III fali", xlab = "tydzieÒ", ylab = "liczba úmierci")
-plot(deaths4, main = "Wykres czasowy úmierci do IV fali", xlab = "tydzieÒ", ylab = "liczba úmierci")
+plot(deaths1, main = "Wykres czasowy ≈õmierci do I fali", xlab = "tydzie≈Ñ", ylab = "liczba ≈õmierci")
+plot(deaths2, main = "Wykres czasowy ≈õmierci do II fali", xlab = "tydzie≈Ñ", ylab = "liczba ≈õmierci")
+plot(deaths3, main = "Wykres czasowy ≈õmierci do III fali", xlab = "tydzie≈Ñ", ylab = "liczba ≈õmierci")
+plot(deaths4, main = "Wykres czasowy ≈õmierci do IV fali", xlab = "tydzie≈Ñ", ylab = "liczba ≈õmierci")
 
 #wykresy sezonowe
-x_values <- c("Nie", "Pon", "Wto", "åro", "Czw", "Piπ", "Sob")
+x_values <- c("Nie", "Pon", "Wto", "≈öro", "Czw", "PiƒÖ", "Sob")
 
 ggseasonplot(confirmed1, year.labels = TRUE, year.labels.left = TRUE, season.labels = x_values) +
-  ggtitle("Wykres sezonowy zakaøeÒ do I fali") + xlab("dzieÒ tygodnia") + ylab("liczba zakaøeÒ")
-ggseasonplot(confirmed1, polar = TRUE, main = "Wykres sezonowy zakaøeÒ do I fali", xlab = "") +
-  labs(color = "tydzieÒ")
+  ggtitle("Wykres sezonowy zaka≈ºe≈Ñ do I fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba zaka≈ºe≈Ñ")
+ggseasonplot(confirmed1, polar = TRUE, main = "Wykres sezonowy zaka≈ºe≈Ñ do I fali", xlab = "") +
+  labs(color = "tydzie≈Ñ")
 ggsubseriesplot(confirmed1) +
-  ggtitle("Podwykresy sezonowe zakaøeÒ do I fali") + xlab("dzieÒ tygodnia") + ylab("liczba zakaøeÒ")
+  ggtitle("Podwykresy sezonowe zaka≈ºe≈Ñ do I fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba zaka≈ºe≈Ñ")
 ggseasonplot(confirmed2, year.labels = TRUE, year.labels.left = TRUE) +
-  ggtitle("Wykres sezonowy zakaøeÒ do II fali") + xlab("dzieÒ tygodnia") + ylab("liczba zakaøeÒ")
-ggseasonplot(confirmed2, polar = TRUE, main = "Wykres sezonowy zakaøeÒ do II fali", xlab = "") +
-  labs(color = "tydzieÒ")
+  ggtitle("Wykres sezonowy zaka≈ºe≈Ñ do II fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba zaka≈ºe≈Ñ")
+ggseasonplot(confirmed2, polar = TRUE, main = "Wykres sezonowy zaka≈ºe≈Ñ do II fali", xlab = "") +
+  labs(color = "tydzie≈Ñ")
 ggsubseriesplot(confirmed2) +
-  ggtitle("Podwykresy sezonowe zakaøeÒ do II fali") + xlab("dzieÒ tygodnia") + ylab("liczba zakaøeÒ")
+  ggtitle("Podwykresy sezonowe zaka≈ºe≈Ñ do II fali") + xlab("dzie? tygodnia") + ylab("liczba zaka≈ºe≈Ñ")
 ggseasonplot(confirmed3, year.labels = TRUE, year.labels.left = TRUE) +
-  ggtitle("Wykres sezonowy zakaøeÒ do III fali") + xlab("dzieÒ tygodnia") + ylab("liczba zakaøeÒ")
-ggseasonplot(confirmed3, polar = TRUE, main = "Wykres sezonowy zakaøeÒ do III fali", xlab = "") + 
-  labs(color = "tydzieÒ")
+  ggtitle("Wykres sezonowy zaka≈ºe≈Ñ do III fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba zaka≈ºe≈Ñ")
+ggseasonplot(confirmed3, polar = TRUE, main = "Wykres sezonowy zaka≈ºe≈Ñ do III fali", xlab = "") + 
+  labs(color = "tydzie≈Ñ")
 ggsubseriesplot(confirmed3) +
-  ggtitle("Podwykresy sezonowe zakaøeÒ do III fali") + xlab("dzieÒ tygodnia") + ylab("liczba zakaøeÒ")
+  ggtitle("Podwykresy sezonowe zaka≈ºe≈Ñ do III fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba zaka≈ºe≈Ñ")
 ggseasonplot(confirmed4, year.labels = TRUE, year.labels.left = TRUE) +
-  ggtitle("Wykres sezonowy zakaøeÒ do IV fali") + xlab("dzieÒ tygodnia") + ylab("liczba zakaøeÒ")
-ggseasonplot(confirmed4, polar = TRUE, main = "Wykres sezonowy zakaøeÒ do IV fali", xlab = "") +
-  labs(color = "tydzieÒ")
+  ggtitle("Wykres sezonowy zaka≈ºe≈Ñ do IV fali") + xlab("dzie? tygodnia") + ylab("liczba zaka≈ºe≈Ñ")
+ggseasonplot(confirmed4, polar = TRUE, main = "Wykres sezonowy zaka≈ºe≈Ñ do IV fali", xlab = "") +
+  labs(color = "tydzie≈Ñ")
 ggsubseriesplot(confirmed4) +
-  ggtitle("Podwykresy sezonowe zakaøeÒ do IV fali") + xlab("dzieÒ tygodnia") + ylab("liczba zakaøeÒ")
+  ggtitle("Podwykresy sezonowe zaka≈ºe≈Ñ do IV fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba zaka≈ºe≈Ñ")
 
 ggseasonplot(deaths1, year.labels = TRUE, year.labels.left = TRUE) +
-  ggtitle("Wykres sezonowy úmierci do I fali") + xlab("dzieÒ tygodnia") + ylab("liczba úmierci")
-ggseasonplot(deaths1, polar = TRUE, main = "Wykres sezonowy úmierci do I fali", xlab = "") +
-  labs(color = "tydzieÒ")
+  ggtitle("Wykres sezonowy ≈õmierci do I fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba ≈õmierci")
+ggseasonplot(deaths1, polar = TRUE, main = "Wykres sezonowy ≈õmierci do I fali", xlab = "") +
+  labs(color = "tydzie≈Ñ")
 ggsubseriesplot(deaths1) +
-  ggtitle("Podwykresy sezonowe úmierci do I fali") + xlab("dzieÒ tygodnia") + ylab("liczba úmierci")
+  ggtitle("Podwykresy sezonowe ≈õmierci do I fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba ≈õmierci")
 ggseasonplot(deaths2, year.labels = TRUE, year.labels.left = TRUE) +
-  ggtitle("Wykres sezonowy úmierci do II fali") + xlab("dzieÒ tygodnia") + ylab("liczba úmierci")
-ggseasonplot(deaths2, polar = TRUE, main = "Wykres sezonowy úmierci do II fali", xlab = "") +
-  labs(color = "tydzieÒ")
+  ggtitle("Wykres sezonowy ≈õmierci do II fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba ≈õmierci")
+ggseasonplot(deaths2, polar = TRUE, main = "Wykres sezonowy ≈õmierci do II fali", xlab = "") +
+  labs(color = "tydzie≈Ñ")
 ggsubseriesplot(deaths2) +
-  ggtitle("Podwykresy sezonowe úmierci do II fali") + xlab("dzieÒ tygodnia") + ylab("liczba úmierci")
+  ggtitle("Podwykresy sezonowe ≈õmierci do II fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba ≈õmierci")
 ggseasonplot(deaths3, year.labels = TRUE, year.labels.left = TRUE) +
-  ggtitle("Wykres sezonowy úmierci do III fali") + xlab("dzieÒ tygodnia") + ylab("liczba úmierci")
-ggseasonplot(deaths3, polar = TRUE, main = "Wykres sezonowy úmierci do III fali", xlab = "") + 
-  labs(color = "tydzieÒ")
+  ggtitle("Wykres sezonowy ≈õmierci do III fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba ≈õmierci")
+ggseasonplot(deaths3, polar = TRUE, main = "Wykres sezonowy ≈õmierci do III fali", xlab = "") + 
+  labs(color = "tydzie≈Ñ")
 ggsubseriesplot(deaths3) +
-  ggtitle("Podwykresy sezonowe úmierci do III fali") + xlab("dzieÒ tygodnia") + ylab("liczba úmierci")
+  ggtitle("Podwykresy sezonowe ≈õmierci do III fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba ≈õmierci")
 ggseasonplot(deaths4, year.labels = TRUE, year.labels.left = TRUE) +
-  ggtitle("Wykres sezonowy úmierci do IV fali") + xlab("dzieÒ tygodnia") + ylab("liczba úmierci")
-ggseasonplot(deaths4, polar = TRUE, main = "Wykres sezonowy úmierci do IV fali", xlab = "") +
-  labs(color = "tydzieÒ")
+  ggtitle("Wykres sezonowy ≈õmierci do IV fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba ≈õmierci")
+ggseasonplot(deaths4, polar = TRUE, main = "Wykres sezonowy ≈õmierci do IV fali", xlab = "") +
+  labs(color = "tydzie≈Ñ")
 ggsubseriesplot(deaths4) +
-  ggtitle("Podwykresy sezonowe úmierci do IV fali") + xlab("dzieÒ tygodnia") + ylab("liczba úmierci")
+  ggtitle("Podwykresy sezonowe ≈õmierci do IV fali") + xlab("dzie≈Ñ tygodnia") + ylab("liczba ≈õmierci")
 
 #wykresy rozrzutu
-qplot(tests1, confirmed1, xlab = "liczba testÛW", ylab = "liczba zakaøeÒ")
-qplot(tests2, confirmed2, xlab = "liczba testÛW", ylab = "liczba zakaøeÒ")
-qplot(tests3, confirmed3, xlab = "liczba testÛW", ylab = "liczba zakaøeÒ")
-qplot(tests4, confirmed4, xlab = "liczba testÛW", ylab = "liczba zakaøeÒ")
+qplot(tests1, confirmed1, xlab = "liczba test√≥W", ylab = "liczba zaka≈ºe≈Ñ")
+qplot(tests2, confirmed2, xlab = "liczba test√≥W", ylab = "liczba zaka≈ºe≈Ñ")
+qplot(tests3, confirmed3, xlab = "liczba test√≥W", ylab = "liczba zaka≈ºe≈Ñ")
+qplot(tests4, confirmed4, xlab = "liczba test√≥W", ylab = "liczba zaka≈ºe≈Ñ")
 
 ggpairs(as.data.frame(cbind(tests7, confirmed7)))
 ggpairs(as.data.frame(cbind(tests7, confirmed7)))
 ggpairs(as.data.frame(cbind(tests7, confirmed7)))
 ggpairs(as.data.frame(cbind(tests7, confirmed7)))
 
-#wykresy opÛünieÒ
+#wykresy op√≥≈∫nie≈Ñ
 gglagplot(confirmed7)
 gglagplot(confirmed7)
 gglagplot(confirmed7)
@@ -109,8 +109,8 @@ gglagplot(confirmed7)
 #ACF/PACF
 
 for (i in 1:4) {
-  tsdisplay(c_time_series[[i]], main = paste("Wykresy dla szeregu czasowego zakaøeÒ dla ", i, " fali"))
-  tsdisplay(d_time_series[[i]], main = paste("Wykresy dla szeregu czasowego úmierci dla ", i, " fali"))
+  tsdisplay(c_time_series[[i]], main = paste("Wykresy dla szeregu czasowego zaka≈ºe≈Ñ dla ", i, " fali"))
+  tsdisplay(d_time_series[[i]], main = paste("Wykresy dla szeregu czasowego ≈õmierci dla ", i, " fali"))
 }
 
 rm(x_labs, x_values, i)

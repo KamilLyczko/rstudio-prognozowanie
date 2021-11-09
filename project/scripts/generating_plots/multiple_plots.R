@@ -1,4 +1,4 @@
-x_values <- c("Nie", "Pon", "Wto", "Œro", "Czw", "Pi¹", "Sob")
+x_values <- c("Nie", "Pon", "Wto", "Åšro", "Czw", "PiÄ…", "Sob")
 confirmed_time_plots <- list()
 deaths_time_plots <- list()
 tests_time_plots <- list()
@@ -22,27 +22,27 @@ while(begin < length(data[, 1])) {
   confirmed_time_plots[[i]] <- ggplot(data = data.frame(x = date_window, y = confirmed_ts), aes(x, y)) +
     geom_line() +
     scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
-    labs(title = paste("Wykres czasowy liczby zaka¿eñ od ", title_time), x = "data", y = "liczba zaka¿eñ") +
+    labs(title = paste("Wykres czasowy liczby zakaÅ¼eÅ„ od ", title_time), x = "data", y = "liczba zakaÅ¼eÅ„") +
     theme(plot.title = element_text(size = title_size), axis.text.x = element_markdown(angle = 45, hjust = 1))
   deaths_time_plots[[i]] <- ggplot(data = data.frame(x = date_window, y = deaths_ts), aes(x, y)) +
     geom_line() +
     scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
-    labs(title = paste("Wykres czasowy liczby œmierci od ", title_time), x = "data", y = "liczba œmierci") +
+    labs(title = paste("Wykres czasowy liczby Å›mierci od ", title_time), x = "data", y = "liczba Å›mierci") +
     theme(plot.title = element_text(size = title_size), axis.text.x = element_markdown(angle = 45, hjust = 1))
   tests_time_plots[[i]] <- ggplot(data = data.frame(x = date_window, y = tests_ts), aes(x, y)) +
     geom_line() +
     scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
-    labs(title = paste("Wykres czasowy liczby testów od ", title_time), x = "data", y = "liczba testów") +
+    labs(title = paste("Wykres czasowy liczby testÃ³w od ", title_time), x = "data", y = "liczba testÃ³w") +
     theme(plot.title = element_text(size = title_size), axis.text.x = element_markdown(angle = 45, hjust = 1))
   confirmed_season_plots[[i]] <- ggseasonplot(confirmed_ts, year.labels = TRUE, year.labels.left = TRUE, season.labels = x_values) +
     theme(plot.title = element_text(size = title_size)) +
-    ggtitle(paste("Wykres sezonowy liczby zaka¿eñ od ", title_time)) + xlab("dzieñ tygodnia") + ylab("liczba zaka¿eñ")
+    ggtitle(paste("Wykres sezonowy liczby zakaÅ¼eÅ„ od ", title_time)) + xlab("dzieÅ„ tygodnia") + ylab("liczba zakaÅ¼eÅ„")
   deaths_season_plots[[i]] <- ggseasonplot(deaths_ts, year.labels = TRUE, year.labels.left = TRUE, season.labels = x_values) +
     theme(plot.title = element_text(size = title_size)) +
-    ggtitle(paste("Wykres sezonowy liczby œmierci od ", title_time)) + xlab("dzieñ tygodnia") + ylab("liczba œmierci")
+    ggtitle(paste("Wykres sezonowy liczby Å›mierci od ", title_time)) + xlab("dzieÅ„ tygodnia") + ylab("liczba Å›mierci")
   tests_season_plots[[i]] <- ggseasonplot(tests_ts, year.labels = TRUE, year.labels.left = TRUE, season.labels = x_values) +
     theme(plot.title = element_text(size = title_size)) +
-    ggtitle(paste("Wykres sezonowy liczby testów od ", title_time)) + xlab("dzieñ tygodnia") + ylab("liczba testów")
+    ggtitle(paste("Wykres sezonowy liczby testÃ³w od ", title_time)) + xlab("dzieÅ„ tygodnia") + ylab("liczba testÃ³w")
   begin <- finish + 1
   finish <- begin + 99
   i <- i + 1
