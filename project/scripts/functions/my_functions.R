@@ -68,6 +68,12 @@ get_date_of_obs_ts <- function(i) {
 get_index_of_obs <- function(ts, obs_num) {
   return(time(ts)[obs_num])
 }
+
+#funkcja zwracająca numer obserwacji
+#argumenty: obiekt ts oraz indeks (liczba zmiennoprzecinkowa określająca czas)
+get_numb_of_obs_ts <- function(ts, index) {
+  return(calc_obs_num(calc_obs_week(index)))
+}
  
 #funkcja zwracająca prognozy metod naiwnych dla podanego szeregu i horyzontu
 naive_forecasts <- function(ts, h) {
