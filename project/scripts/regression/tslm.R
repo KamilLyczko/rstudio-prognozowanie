@@ -17,7 +17,9 @@ for(i in 1:length(c_time_series)) {
                     end = weekly_freq_day_number(length(t_time_series_cleaned[[i]]) - 30))
   t_test <- window(t_time_series_cleaned[[i]],
                    start = weekly_freq_day_number(length(t_time_series_cleaned[[i]]) - 29))
-  plot1_title <- paste0("Wykres rozrzutu wartości obserwacji szeregów czasowych dla ",i, " fali")
+  dates <- paste0("(", format(get_date_of_obs_ts(get_index_of_obs(c_train, 1)), "%d.%m.%Y"), "-",
+                  format(get_date_of_obs_ts(get_index_of_obs(c_train, length(c_train))), "%d.%m.%Y"), ")")
+  plot1_title <- paste0("Wykres rozrzutu wartości obserwacji szeregów czasowych dla ",i, " fali ", dates)
   plot2_title <- paste0("Wykres czasowy prognoz liczby zakażeń dla ", i, " fali - regresja liniowa")
   plot3_title <- paste0("Porównanie prognoz liczby zakażeń z szeregiem testowym dla ", i, 
                         " fali - regresja liniowa")
@@ -50,4 +52,4 @@ grid.arrange(grobs = test_comparison_plots, ncol = 1)
 
 rm(label_size, title_size, model_list, forecasts, i, c_train, t_train, c_test, t_test)
 rm(scatterplots, forecasts_plots, test_comparison_plots)
-rm(plot1_title, plot2_title, plot3_title)
+rm(plot1_title, plot2_title, plot3_title, dates)
