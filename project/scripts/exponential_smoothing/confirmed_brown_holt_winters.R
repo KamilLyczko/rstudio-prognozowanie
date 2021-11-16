@@ -27,32 +27,12 @@ for(i in 1:length(c_time_series)) {
       theme(axis.title.x = element_text(size = label_size), 
             axis.title.y = element_text(size = label_size),
             plot.title = element_text(size = title_size))
-    if(i == 1 | i == 2) {
-      forecast_plots[[j]] <- autoplot(train, series = "Wartości rzeczywiste") + 
-        autolayer(forecasts[[j]], series = "Prognozy", PI = TRUE) +
-        autolayer(fitted(forecasts[[j]]), series = "Wartości dopasowane") +
-        coord_cartesian(ylim = c(0, max(forecasts[[j]]$x, forecasts[[j]]$mean))) +
-        guides(colour = guide_legend(title = "")) +
-        ggtitle(paste0(plot2_title, " - ", plot_methods[j])) +
-        xlab("numer tygodnia") + ylab("liczba zakażeń") +
-        theme(axis.title.x = element_text(size = label_size), 
-              axis.title.y = element_text(size = label_size),
-              plot.title = element_text(size = title_size))
-    }
-    else {
-      forecast_plots[[j]] <- autoplot(window(train, start = weekly_freq_day_number(200)),
-                                      series = "Wartości rzeczywiste") + 
-        autolayer(forecasts[[j]], series = "Prognozy", PI = TRUE) +
-        autolayer(window(fitted(forecasts[[j]]), start = weekly_freq_day_number(200)), 
-                 series = "Wartości dopasowane") + 
-        coord_cartesian(ylim = c(0, max(forecasts[[j]]$x, forecasts[[j]]$mean))) +
-        guides(colour = guide_legend(title = "")) +
-        ggtitle(paste0(plot2_title, " - ", plot_methods[j])) +
-        xlab("numer tygodnia") + ylab("liczba zakażeń") +
-        theme(axis.title.x = element_text(size = label_size), 
-              axis.title.y = element_text(size = label_size),
-              plot.title = element_text(size = title_size))
-    }
+    forecast_plots[[j]] <- generate_forecast_plot(forecasts[[j]], 
+                                                  paste0(plot2_title, " - ", plot_methods[j]), 
+                                                  "liczba zakażeń") +
+      theme(axis.title.x = element_text(size = label_size), 
+            axis.title.y = element_text(size = label_size),
+            plot.title = element_text(size = title_size))
     test_comparison_plots[[j]] <- generate_test_comparison_plot(test, forecasts[[j]],
                                                            title = paste0(plot3_title, 
                                                                           " - ", 

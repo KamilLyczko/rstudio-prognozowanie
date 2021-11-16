@@ -63,15 +63,11 @@ for(i in 1:length(c_time_series_short)) {
                         test_start, "-", test_finish, ")")
   plot3_title <- paste0("Porównanie prognoz liczby zakażeń z szeregiem testowym dla ", i, 
                         " fali - regresja liniowa (", test_start, "-", test_finish, ")")  
-  forecasts_plots[[i]] <- autoplot(c_train, series = "Wartości rzeczywiste") + 
-    autolayer(forecasts[[i]], series = "Prognozy") +
-    autolayer(fitted(forecasts[[i]]), series = "Wartości dopasowane") +
-    guides(colour = guide_legend(title = "")) +
-    ggtitle(plot2_title) +
-    xlab("numer tygodnia") + ylab("liczba zakażeń") +
+  forecasts_plots[[i]] <- generate_forecast_plot(forecasts[[i]], plot2_title, "liczba zakażeń") +
     theme(axis.title.x = element_text(size = label_size), 
           axis.title.y = element_text(size = label_size),
           plot.title = element_text(size = title_size))
+  
   test_comparison_plots[[i]] <- generate_test_comparison_plot(c_test, forecasts[[i]],
                                                               title = plot3_title,
                                                               ylab = "liczba zakażeń") +

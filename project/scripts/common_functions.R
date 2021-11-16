@@ -178,26 +178,6 @@ get_indexes_of_zero_values <- function(ts) {
   return(indexes)
 }
 
-#nie działa
-generate_forecast_plot <- function(forecast, title = "", ylab = "") {
-  dates1 <- as.Date(c(seq(get_date_of_obs_ts(get_index_of_obs(forecast$x, 1)),
-                          get_date_of_obs_ts(get_index_of_obs(forecast$x, length(forecast$x))), 1)))
-  dates2 <- as.Date(c(seq(get_date_of_obs_ts(get_index_of_obs(forecast$mean, 1)),
-                          get_date_of_obs_ts(get_index_of_obs(forecast$mean, length(forecast$mean))), 1)))
-  x_labs <- c(seq(dates1[1], dates2[length(dates2)], 20))
-  if(x_labs[length(x_labs)] != dates2[length(dates2)])
-    x_labs[length(x_labs) + 1] <- dates2[length(dates2)]
-  ggplot(data = data.frame(x = dates1, y = forecast$x), aes(x, y, colour = "Szereg treningowy")) +
-    geom_line() +
-    geom_line(data = data.frame(x = dates2, y = forecast$mean), aes(x, y, colour = "Prognozy")) +
-    geom_line(data = data.frame(x = dates2, y = forecast$lower[, 1]), aes(x, y, colour = "Lower")) +
-    geom_line(data = data.frame(x = dates2, y = forecast$upper[, 1]), aes(x, y, colour = "Upper")) +
-    geom_ribbon(data = data.frame(x = dates2, y_min = forecast$lower[, 1],
-                                y_max = forecast$upper[, 1]), aes(x = x, ymin = y_min, ymax = y_max)) +
-    scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
-    labs(title = title, x = "data", y = ylab, color = "") +
-    theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
-}
 
 calculate_training_errors <- function(fit) {
   train_errors <- residuals(fit, type = "response")
@@ -227,7 +207,7 @@ generate_fit_plot <- function(fit, title = "", ylab = "") {
   dates <- as.Date(c(seq(get_date_of_obs_ts(get_index_of_obs(fit$x, 1)),
                          get_date_of_obs_ts(get_index_of_obs(fit$x, length(fit$x))), 1)))
   x_labs <- c(seq(dates[1], dates[length(dates)], length(dates)%/%10))
-  if(as.numeric(x_labs[length(x_labs)] - dates[length(dates)]) > 5)
+  if(as.numeric(dates[length(dates)] - x_labs[length(x_labs)]) > 10)
     x_labs[length(x_labs) + 1] <- dates[length(dates)]
   ggplot(data = data.frame(x = dates, y = fit$x), aes(x, y, colour = "Wartości rzeczywiste")) +
     geom_line() +
@@ -236,5 +216,14 @@ generate_fit_plot <- function(fit, title = "", ylab = "") {
     scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
     labs(title = title, x = "data", y = ylab, color = "") +
     theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
+}
+
+generate_forecast_plot <- function(forecast, title = "", ylab = "") {
+  autoplot(forecast$x, series = "Wartości rzeczywiste") + 
+    autolayer(forecast, series = "Prognozy", PI = TRUE) +
+    autolayer(fitted(forecast), series = "Wartości dopasowane") +
+    coord_cartesian(ylim = c(0, max(forecast$x, forecast$mean))) +
+    guides(colour = guide_legend(title = "")) +
+    labs(title = title, x = "numer tygodnia", y = ylab, color = "")
 }
 
