@@ -6,7 +6,7 @@
 #porównać mierniki błędów w zbiorze testowym
 #sprawdzić czy wskazania uzyskane na podstawie zbioru treningowego i testowego są jednoznaczne
 
-h <- 30
+h <- 10
 begin_list <- list(
   begin1 = c(1, 20, 30, 40, 50, 60, 70, 80, 90, 100),
   begin2 = c(1, 20, 40, 60, 80, 100, 120, 140, 160, 180),
@@ -81,7 +81,28 @@ for(i in 1:length(best_forecast_models)) {
 }
 
 
+plots <- list()
+for(i in 1:length(best_forecast_models)) {
+  test <- window(d_time_series_short[[i]], start = weekly_freq_day_number(length(d_time_series_short[[i]]) - 29 + offset[i]),
+                 end = weekly_freq_day_number(length(d_time_series_short[[i]]) - 30 + offset[i] + h))
+  forecast <- forecast(best_forecast_models[[i]]$model, h = h)
+  plot1_title <- paste0("Wykres dopasowania modelu deaths = ",
+                        as.character(best_forecast_models[[i]]$model$terms)[3],
+                        " do szeregu liczb śmierci dla ", i, " fali")
+  plot2_title <- paste0("Wykres prognoz liczb śmierci dla ", i, " fali")
+  plot3_title <- paste0("Porównanie prognoz z rzeczywistymi liczbami śmierci dla ", i, " fali")
+  plots[[1]] <- generate_fit_plot(best_forecast_models[[i]]$model, plot1_title, "liczba śmierci")
+  plots[[2]] <- generate_forecast_plot(forecast, plot2_title, "liczba śmierci")
+  plots[[3]] <- generate_test_comparison_plot(test, forecast, plot3_title, "liczba śmierci")
+  grid.arrange(grobs = plots, ncol = 1)
+  # save_forecasts_to_csv(forecast, paste0("d", i, "_regression_forecasts.csv"), "regression")
+  # save_df_to_csv(calculate_ex_post_errors(forecast, test), paste0("d", i, "_regression_errors.csv"),
+  #                "regression")
+}
+
+
 
 rm(h, begin_list, best_fitting_models, d_time_series_short, offset)
 rm(train, test, fit_list, i, j)
 rm(best_forecast_models, best_model_index)
+rm(forecast, plots, plot1_title, plot2_title, plot3_title)
