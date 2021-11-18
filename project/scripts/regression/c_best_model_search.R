@@ -1,5 +1,5 @@
 #algorytm poszukiwania najlepszego modelu dla szeregów czasowych 1, 2 i 4 fali
-#wyznacznikiem jest miernik MAPE trafności prognoz wygasłych
+#wyznacznikiem jest miernik MAPE trafności prognoz wygasłych dla horyzontu 30 dni
 #tworzenie modeli dla szeregów czasowych o różnej długości
 
 begin_list <- list(
