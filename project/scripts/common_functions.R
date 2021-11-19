@@ -227,3 +227,62 @@ generate_forecast_plot <- function(forecast, title = "", ylab = "") {
     labs(title = title, x = "numer tygodnia", y = ylab, color = "")
 }
 
+#funkcja zwracająca indeks modelu w podanej liście,
+#który charakteryzuje się najmniejszymi wartościami mierników błędów treningowych
+find_best_fitting_model <- function(models_list) {
+  training_errors_measures <- data.frame()
+  for(i in 1:length(models_list)) {
+    training_errors_measures <- rbind(training_errors_measures, calculate_training_errors(models_list[[i]]))
+  }
+  model_points <- c(rep(0, length(models_list)))
+  for(i in 2:length(training_errors_measures)) {
+    min <- min(training_errors_measures[, i])
+    for(j in 1:length(training_errors_measures[, i])) {
+      if(min == training_errors_measures[j, i])
+        model_points[j] <- model_points[j] + 1
+    }
+  }
+  return(match(max(model_points), model_points))
+}
+
+#funkcja zwracająca indeks modelu w podanej liście,
+#który charakteryzuje się najmniejszymi wartościami mierników błędów testowych
+find_best_forecast_model <- function(models_list, test_ts) {
+  h <- length(test_ts)
+  test_errors_measures <- data.frame()
+  for(i in 1:length(models_list)) {
+    predictions <- forecast(models_list[[i]], h = h)
+    test_errors_measures <- rbind(test_errors_measures, calculate_ex_post_errors(predictions, test_ts))
+  }
+  model_points <- c(rep(0, length(models_list)))
+  for(i in 2:length(test_errors_measures)) {
+    min <- min(test_errors_measures[, i])
+    for(j in 1:length(test_errors_measures[, i])) {
+      if(min == test_errors_measures[j, i])
+        model_points[j] <- model_points[j] + 1
+    }
+  }
+  return(match(max(model_points), model_points))
+}
+
+
+#funkcja zwracająca indeks obiektu forecast w podanej liście,
+#który charakteryzuje się najmniejszymi wartościami mierników błędów testowych
+find_best_forecast <- function(forecasts_list, test_ts) {
+  h <- length(test_ts)
+  test_errors_measures <- data.frame()
+  for(i in 1:length(forecasts_list)) {
+    test_errors_measures <- rbind(test_errors_measures, 
+                                  calculate_ex_post_errors(forecasts_list[[i]], test_ts))
+  }
+  forecasts_points <- c(rep(0, length(forecasts_list)))
+  for(i in 2:length(test_errors_measures)) {
+    min <- min(test_errors_measures[, i])
+    for(j in 1:length(test_errors_measures[, i])) {
+      if(min == test_errors_measures[j, i])
+        forecasts_points[j] <- forecasts_points[j] + 1
+    }
+  }
+  return(match(max(forecasts_points), forecasts_points))
+}
+
