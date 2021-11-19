@@ -80,7 +80,7 @@ for(i in 1:length(best_forecast_models)) {
   cat("deaths = ", as.character(best_forecast_models[[i]]$model$terms)[3], "\n")
 }
 
-
+#wygenerowanie prognoz i wykresów
 plots <- list()
 for(i in 1:length(best_forecast_models)) {
   test <- window(d_time_series_short[[i]], start = weekly_freq_day_number(length(d_time_series_short[[i]]) - 29 + offset[i]),

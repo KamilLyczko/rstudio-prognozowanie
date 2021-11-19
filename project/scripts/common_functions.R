@@ -222,7 +222,7 @@ generate_forecast_plot <- function(forecast, title = "", ylab = "") {
   autoplot(forecast$x, series = "Wartości rzeczywiste") + 
     autolayer(forecast, series = "Prognozy", PI = TRUE) +
     autolayer(fitted(forecast), series = "Wartości dopasowane") +
-    coord_cartesian(ylim = c(0, max(forecast$x, forecast$mean))) +
+    coord_cartesian(ylim = c(0, max(forecast$x, forecast$mean, forecast$fitted))) +
     guides(colour = guide_legend(title = "")) +
     labs(title = title, x = "numer tygodnia", y = ylab, color = "")
 }

@@ -30,6 +30,7 @@ offset <- c(
   length(c_time_series[[3]]) - length(c_time_series_short[[3]]),
   length(c_time_series[[4]]) - length(c_time_series_short[[4]])
 )
+h <- 30
 for(i in 1:length(c_time_series_short)) {
   c_train <- window(c_time_series_short[[i]], end = weekly_freq_day_number(length(c_time_series_short[[i]]) - 30 + offset[i]))
   c_test <- window(c_time_series_short[[i]], start = weekly_freq_day_number(length(c_time_series_short[[i]]) - 29 + offset[i]))
@@ -87,5 +88,5 @@ grid.arrange(grobs = test_comparison_plots, ncol = 1)
 rm(c_time_series_short, t_time_series_cleaned_short, first_obs_numb, offset)
 rm(label_size, title_size, model_list, forecasts, i, c_train, t_train, c_test, t_test)
 rm(scatterplots, forecasts_plots, test_comparison_plots)
-rm(plot1_title, plot2_title, plot3_title)
+rm(plot1_title, plot2_title, plot3_title, h)
 rm(train_start, train_finish, test_start, test_finish)
