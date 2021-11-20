@@ -41,8 +41,10 @@ for(i in 1:4) {
 }
 
 cat("Modele generujące najlepsze prognozy liczb zakażeń:\n")
-for(i in 1:length(best_fitting_models)) {
+for(i in 1:length(best_models)) {
   cat(i, " fala\t", best_models[[i]]$method, "\n")
+  show(summary(best_models[[i]]))
+  show(calculate_training_errors(best_models[[i]]))
 }
 
 
