@@ -89,7 +89,7 @@ calculate_ex_post_errors <- function(forecast, test_ts) {
     errors["MAE"] <- errors["MAE"] + abs(e)
     errors["MSE"] <- errors["MSE"] + e*e
     if(test_ts[i] != 0) {
-      errors["MAPE"] <- errors["MAPE"] + abs(e)/test_ts[i]
+      errors["MAPE"] <- errors["MAPE"] + abs(e/test_ts[i])
       j <- j + 1
     }
   }
@@ -191,7 +191,7 @@ calculate_training_errors <- function(fit) {
     errors["MAE"] <- errors["MAE"] + abs(train_errors[i])
     errors["MSE"] <- errors["MSE"] + train_errors[i]*train_errors[i]
     if(fit$x[i] != 0) {
-      errors["MAPE"] <- errors["MAPE"] + abs(train_errors[i])/fit$x[i]
+      errors["MAPE"] <- errors["MAPE"] + abs(train_errors[i]/fit$x[i])
       j <- j + 1
     }
   }
@@ -284,5 +284,18 @@ find_best_forecast <- function(forecasts_list, test_ts) {
     }
   }
   return(match(max(forecasts_points), forecasts_points))
+}
+
+generate_ts_time_plot <- function(ts, title = "", ylab = "") {
+  dates <- as.Date(c(seq(get_date_of_obs_ts(get_index_of_obs(ts, 1)),
+                         get_date_of_obs_ts(get_index_of_obs(ts, length(ts))), 1)))
+  x_labs <- c(seq(dates[1], dates[length(dates)], length(dates)%/%10))
+  if(as.numeric(dates[length(dates)] - x_labs[length(x_labs)]) > 10)
+    x_labs[length(x_labs) + 1] <- dates[length(dates)]
+  ggplot(data = data.frame(x = dates, y = ts), aes(x = x, y = y)) +
+    geom_line() +
+    scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
+    labs(title = title, x = "data", y = ylab) +
+    theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
 }
 
