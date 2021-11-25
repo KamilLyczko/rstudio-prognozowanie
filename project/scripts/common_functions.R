@@ -218,13 +218,40 @@ generate_fit_plot <- function(fit, title = "", ylab = "") {
     theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
 }
 
-generate_forecast_plot <- function(forecast, title = "", ylab = "") {
+generate_forecast_plot <- function(forecast, title = "", ylab = "", PI = TRUE) {
   autoplot(forecast$x, series = "Wartości rzeczywiste") + 
-    autolayer(forecast, series = "Prognozy", PI = TRUE) +
+    autolayer(forecast, series = "Prognozy", PI = PI) +
     autolayer(fitted(forecast), series = "Wartości dopasowane") +
     coord_cartesian(ylim = c(0, max(forecast$x, forecast$mean, forecast$fitted))) +
     guides(colour = guide_legend(title = "")) +
     labs(title = title, x = "numer tygodnia", y = ylab, color = "")
+}
+
+generate_forecast_plot2 <- function(forecast, title = "", ylab = "") {
+  dates <- as.Date(c(seq(get_date_of_obs_ts(get_index_of_obs(forecast$x, 1)),
+                         get_date_of_obs_ts(get_index_of_obs(forecast$mean, 
+                                                             length(forecast$mean))), 1)))
+  x_labs <- c(seq(dates[1], dates[length(dates)], length(dates)%/%10))
+  if(as.numeric(dates[length(dates)] - x_labs[length(x_labs)]) > 10)
+    x_labs[length(x_labs) + 1] <- dates[length(dates)]
+  n <- length(forecast$x)
+  point <- forecast$x
+  point[] <- NA
+  x_ts <- ts(data = c(forecast$x, rep(NA, length(forecast$mean))),
+             start = start(forecast$x), frequency = frequency(forecast$x))
+  fitted_ts <- ts(data = c(forecast$fitted, rep(NA, length(forecast$mean))),
+                  start = start(forecast$fitted), 
+                  frequency = frequency(forecast$fitted))
+  prediction_ts <- ts(data = c(rep(NA, length(forecast$x)), forecast$mean),
+                      start = start(forecast$x), frequency = frequency(forecast$mean))
+  ggplot(data = data.frame(x = dates, ts = x_ts, fit = fitted_ts,
+                           prediction = prediction_ts)) +
+    geom_line(aes(x, ts, colour = "Wartości rzeczywiste")) +
+    geom_line(aes(x, fit, colour = "Wartości dopasowane")) +
+    geom_line(aes(x, prediction, colour = "Prognozy")) +
+    scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
+    labs(title = title, x = "data", y = ylab, color = "") +
+    theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
 }
 
 #funkcja zwracająca indeks modelu w podanej liście,
@@ -232,7 +259,8 @@ generate_forecast_plot <- function(forecast, title = "", ylab = "") {
 find_best_fitting_model <- function(models_list) {
   training_errors_measures <- data.frame()
   for(i in 1:length(models_list)) {
-    training_errors_measures <- rbind(training_errors_measures, calculate_training_errors(models_list[[i]]))
+    training_errors_measures <- rbind(training_errors_measures, 
+                                      calculate_training_errors(models_list[[i]]))
   }
   model_points <- c(rep(0, length(models_list)))
   for(i in 2:length(training_errors_measures)) {
@@ -297,5 +325,12 @@ generate_ts_time_plot <- function(ts, title = "", ylab = "") {
     scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
     labs(title = title, x = "data", y = ylab) +
     theme(axis.text.x = element_markdown(angle = 45, hjust = 1))
+}
+
+#funkcja do ustawiania rozmiaru głównego tytułu oraz tytułów osi wykresu
+set_titles_size <- function(main = 10, axis = 10) {
+  theme(axis.title.x = element_text(size = axis), 
+        axis.title.y = element_text(size = axis),
+        plot.title = element_text(size = main))
 }
 

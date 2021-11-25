@@ -10,19 +10,17 @@ find_model_best_aicc <- function(fit_list) {
 #funkcja zwracająca szereg czasowy po przekształceniach do postaci stacjonarnej
 #oraz liczby wykonanych różnic c(sezonowe, pierwsze)
 make_stationary_ts <- function(ts) {
-  n_seas_diffs <- 0
+  n_seas_diffs <- nsdiffs(ts) 
+  if(n_seas_diffs)
+    ts <- diff(ts, lag = frequency(ts))
   n_first_diffs <- 0
   while(TRUE) {
-    if(!(nsdiffs(ts)|ndiffs(ts)))
-      break
-    if(nsdiffs(ts) > 0) {
-      ts <- diff(ts, lag = frequency(ts))
-      n_seas_diffs <- n_seas_diffs + 1
-    }
-    if(ndiffs(ts) > 0) {
+    if(ndiffs(ts)) {
       ts <- diff(ts)
       n_first_diffs <- n_first_diffs + 1
     }
+    else
+      break
   }
   result <- list(diff_ts = ts, diffs = c(n_seas_diffs, n_first_diffs)) 
 }
@@ -34,19 +32,20 @@ make_stationary_ts <- function(ts) {
 #argument orders_list: lista wektorów określających rząd modelu: 
 #elementy wektora o indeksach 1:3 określają część niesezonową modelu
 #elementy wektora o indeksach 4:6 określają część sezonową modelu
-find_best_arima_models <- function(ts, orders_list) {
+find_best_arima_models <- function(ts, orders_list, lambda = NULL) {
   fit_list <- list()
   for(i in 1:length(orders_list)) {
     if(length(orders_list[[i]]) < 4)
-      fit_list[[i]] <- Arima(ts, order = orders_list[[i]])
+      fit_list[[i]] <- Arima(ts, order = orders_list[[i]], lambda = lambda)
     else 
       fit_list[[i]] <- Arima(ts, order = c(orders_list[[i]][1:3]),
-                             seasonal = c(orders_list[[i]][4:6]))
+                              seasonal = c(orders_list[[i]][4:6]),
+                              lambda = lambda)
   }
   result <- list(
     best_model_aicc = find_model_best_aicc(fit_list),
     best_model_training_errors = fit_list[[find_best_fitting_model(fit_list)]],
-    best_model_auto = auto.arima(ts)
+    best_model_auto = auto.arima(ts, lambda = lambda)
   )
 }
 
@@ -64,3 +63,28 @@ get_arima_model_type <- function(fit) {
                     ")[", orders[5], "]")
   return(model)
 }
+
+#funkcja zwracająca listę z szeregami czasowymi z obiektu forecast
+#(prognoza punktowa, szereg treningowy, wartości dopasowane) z wartościami
+#obserwacji skorygowanymi o n
+make_adjusted_forecast_object <- function(forecast, n) {
+  adjusted <- list(
+    mean = forecast$mean - n,
+    x = forecast$x - n,
+    fitted = forecast$fitted - n
+  )
+  return(adjusted)
+}
+
+
+generate_autocorrelation_plots <- function(ts, title = "", ylab = "") {
+  main_title <- 10
+  axis_titles <- 10
+  plots <- list(
+    generate_ts_time_plot(ts, title, ylab) + set_titles_size(main_title, axis_titles),
+    ggAcf(ts) + set_titles_size(main_title, axis_titles) + ggtitle(""),
+    ggPacf(ts) + set_titles_size(main_title, axis_titles) + ggtitle("")
+  )
+  grid.arrange(grobs = plots, ncol = 1)
+}
+

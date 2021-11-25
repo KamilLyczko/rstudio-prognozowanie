@@ -66,10 +66,10 @@ models <- list(best_models$best_model_aicc, best_models$best_model_training_erro
 best_model <- models[[find_best_forecast_model(models, test)]]
 #Najlepszy model:
 summary(best_model)
+#Najlepszy model: ARIMA(0,1,3)(0,1,0)[7]
  
 #prognozowanie z wykorzystaniem najlepszego modelu
 forecast <- forecast(best_model, h = 30)
-show(calculate_ex_post_errors(forecast, test))
 plots <- list(
   generate_fit_plot(best_model,
                     paste0("Wykres dopasowania modelu ", 
@@ -84,11 +84,15 @@ plots <- list(
                                 "liczba zakażeń")
 )
 grid.arrange(grobs = plots, ncol = 1)
+show(calculate_ex_post_errors(forecast, test))
 
 rm(train, diff_list, orders_cand, best_models, test, best_model, forecast, plots)
 rm(diff_train, orders_cand2, best_models2, models)
 
-
+#Najlepszy model: ARIMA(0,1,3)(0,1,0)[7]
+#Błędy testowe:
+#            ME      MAE      MSE   RMSE     MAPE
+#value 1375.323 3106.395 15111878 3887.4 14.44505
 
 
 
