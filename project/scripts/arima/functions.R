@@ -22,6 +22,11 @@ make_stationary_ts <- function(ts) {
     else
       break
   }
+  if(!n_seas_diffs) {
+    n_seas_diffs <- nsdiffs(ts) 
+    if(n_seas_diffs)
+      ts <- diff(ts, lag = frequency(ts))
+  }
   result <- list(diff_ts = ts, diffs = c(n_seas_diffs, n_first_diffs)) 
 }
 

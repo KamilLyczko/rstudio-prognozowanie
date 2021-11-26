@@ -14,7 +14,7 @@ time_plots[[1]] <- generate_ts_time_plot(add1_train,
 time_plots[[2]] <- generate_ts_time_plot(boxcox_add1_train, 
                       paste0("Wykres czasowy liczb zakażeń dla 2 fali po transformacji Box-Cox (lambda = ",
                              signif(lambda, 3), ")"), 
-                      "BoxCox(liczba zakażeń)") +
+                      "BoxCox(liczba zakażeń + 1)") +
   set_titles_size(main_title, axis_titles)
 time_plots[[3]] <- generate_ts_time_plot(diff_list$diff_ts, 
                                  paste0("Wykres czasowy szeregu liczby zakażeń dla 2 fali po ", 
@@ -43,10 +43,6 @@ summary(best_models$best_model_aicc)
 summary(best_models$best_model_training_errors)
 #najlepszy model wybrany automatycznie:
 summary(best_models$best_model_auto)
-
-checkresiduals(best_models$best_model_aicc) #reszty to biały szum
-checkresiduals(best_models$best_model_training_errors) #reszty to biały szum
-checkresiduals(best_models$best_model_auto)
 
 #poszukiwanie modelu dającego najlepsze prognozy
 test <- window(confirmed2, start = weekly_freq_day_number(length(confirmed2) - 29))
