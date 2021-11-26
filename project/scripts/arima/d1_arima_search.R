@@ -160,3 +160,17 @@ rm(train, diff_list, main_title, axis_titles, plots, plots2)
 rm(orders_cand, best_models, test, best_model, forecast)
 rm(time_plots, cor_plots, best_model2, forecast2, adjusted_forecast)
 rm(add1_train, add1_test, boxcox_add1_train, lambda)
+
+#-----------------------------------------------------------------------------------
+
+#Najlepszy model - I sposób: ARIMA(2,1,2)
+#Błędy testowe:
+#            ME      MAE      MSE     RMSE     MAPE
+#value 1.965878 4.525714 27.46372 5.240584 75.54376
+
+#Najlepszy model dla szeregu z zwiększonymi wartościami - II sposób: ARIMA(0,1,1)(1,0,1)[7]
+#Błędy testowe dla skorygowanego szeregu i jego prognoz
+#            ME      MAE      MSE     RMSE     MAPE
+#value 3.528891 4.663136 31.10607 5.577282 60.45877
+
+#Najlepszy: model I sposobu
