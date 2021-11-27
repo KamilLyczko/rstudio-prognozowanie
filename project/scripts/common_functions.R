@@ -182,22 +182,27 @@ get_indexes_of_zero_values <- function(ts) {
 calculate_training_errors <- function(fit) {
   train_errors <- residuals(fit, type = "response")
   n <- length(train_errors)
+  c <- 0
   j <- 0
   errors <- data.frame(
     ME = 0, MAE = 0, MSE = 0, RMSE = 0, MAPE = 0, row.names = "value"
   )
   for(i in 1:n) {
-    errors["ME"] <- errors["ME"] + train_errors[i]
-    errors["MAE"] <- errors["MAE"] + abs(train_errors[i])
-    errors["MSE"] <- errors["MSE"] + train_errors[i]*train_errors[i]
-    if(fit$x[i] != 0) {
-      errors["MAPE"] <- errors["MAPE"] + abs(train_errors[i]/fit$x[i])
-      j <- j + 1
+    if(!is.na(train_errors[i])) {
+      c <- c + 1
+      errors["ME"] <- errors["ME"] + train_errors[i]
+      errors["MAE"] <- errors["MAE"] + abs(train_errors[i])
+      errors["MSE"] <- errors["MSE"] + train_errors[i]*train_errors[i]
+      if(fit$x[i] != 0) {
+        errors["MAPE"] <- errors["MAPE"] + abs(train_errors[i]/fit$x[i])
+        j <- j + 1
+      }
     }
+    
   }
-  errors["ME"] <- errors["ME"]/n
-  errors["MAE"] <- errors["MAE"]/n
-  errors["MSE"] <- errors["MSE"]/n
+  errors["ME"] <- errors["ME"]/c
+  errors["MAE"] <- errors["MAE"]/c
+  errors["MSE"] <- errors["MSE"]/c
   errors["RMSE"] <- sqrt(errors["MSE"])
   errors["MAPE"] <- errors["MAPE"]/j*100
   return(errors)
