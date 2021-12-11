@@ -1,12 +1,11 @@
-#DO ZROBIENIA
-#zbadać jakość modeli regresji dla szeregów liczb śmierci (kombinacje trend/season)
-#trend; season; trend + season
-#dla różnych długości szeregów treningowych (tak jak z zakażeniami)
-#porównać mierniki błędów w zbiorze treningowym;
-#porównać mierniki błędów w zbiorze testowym
-#sprawdzić czy wskazania uzyskane na podstawie zbioru treningowego i testowego są jednoznaczne
+#poszukiwanie najlepszych modeli dla liczb śmierci
+#różne szeregi treningowe: zmienny numer pierwszej obserwacji
+#dopasowywanie kilku modeli do szeregu (różne kombinacje trend/season)
+#wybór najlepszego modelu dla każdego szeregu treningowego na podstawie 
+# mierników błędów treningowych (najlepsze dopasowanie do danych hostorycznych)
+#ostateczna selekcja modelu (i długości szeregu treningowego) na podstawie
+# mierników błędów testowych (najlepsze dopasowanie prognoz wygasłych)
 
-h <- 10
 begin_list <- list(
   begin1 = c(1, 20, 30, 40, 50, 60, 70, 80, 90, 100),
   begin2 = c(1, 20, 40, 60, 80, 100, 120, 140, 160, 180),
@@ -19,9 +18,6 @@ best_fitting_models <- list(
   models3 = list(),
   models4 = list()
 )
-
-d_time_series_short <- list()
-offset <- c()
 
 #poszukiwanie najlepszych modeli dla różnych długości szeregu treningowego
 for(i in 1:length(begin_list[[1]])) {
@@ -38,8 +34,9 @@ for(i in 1:length(begin_list[[1]])) {
     length(d_time_series[[4]]) - length(d_time_series_short[[4]])
   )
   for(j in 1:length(d_time_series_short)) {
-    train <- window(d_time_series_short[[j]], end = weekly_freq_day_number(length(d_time_series_short[[j]]) - 30 + offset[j]))
-    
+    train <- window(d_time_series_short[[j]], 
+                    end = weekly_freq_day_number(length(d_time_series_short[[j]]) - 
+                                                                                  30 + offset[j]))
     fit_list <- list(
       model1 = tslm(train ~ trend),
       model2 = tslm(train ~ season),
@@ -63,8 +60,7 @@ for(i in 1:length(best_fitting_models)) {
 best_forecast_models <- list()
 
 for(i in 1:length(best_fitting_models)) {
-  test <- window(d_time_series_short[[i]], start = weekly_freq_day_number(length(d_time_series_short[[i]]) - 29 + offset[i]),
-                 end = weekly_freq_day_number(length(d_time_series_short[[i]]) - 30 + offset[i] + h))
+  test <- window(d_time_series[[i]], start = weekly_freq_day_number(length(d_time_series[[i]]) - 29))
   best_model_index <- find_best_forecast_model(best_fitting_models[[i]], test)
   best_forecast_models[[i]] <- list(
     first_obs_num = begin_list[[i]][best_model_index],
@@ -83,9 +79,8 @@ for(i in 1:length(best_forecast_models)) {
 #wygenerowanie prognoz i wykresów
 plots <- list()
 for(i in 1:length(best_forecast_models)) {
-  test <- window(d_time_series_short[[i]], start = weekly_freq_day_number(length(d_time_series_short[[i]]) - 29 + offset[i]),
-                 end = weekly_freq_day_number(length(d_time_series_short[[i]]) - 30 + offset[i] + h))
-  forecast <- forecast(best_forecast_models[[i]]$model, h = h)
+  test <- window(d_time_series[[i]], start = weekly_freq_day_number(length(d_time_series[[i]]) - 29))
+  forecast <- forecast(best_forecast_models[[i]]$model, h = 30)
   plot1_title <- paste0("Wykres dopasowania modelu deaths = ",
                         as.character(best_forecast_models[[i]]$model$terms)[3],
                         " do szeregu liczb śmierci dla ", i, " fali")
@@ -102,7 +97,7 @@ for(i in 1:length(best_forecast_models)) {
 
 
 
-rm(h, begin_list, best_fitting_models, d_time_series_short, offset)
+rm(begin_list, best_fitting_models, d_time_series_short, offset)
 rm(train, test, fit_list, i, j)
 rm(best_forecast_models, best_model_index)
 rm(forecast, plots, plot1_title, plot2_title, plot3_title)

@@ -1,3 +1,5 @@
+#wykresy rozrzutu liczb zakażeń względem liczb testów
+
 c_scatterplots <- list()
 label_size <- 10
 title_size <- 11

@@ -11,7 +11,21 @@ ggplot() +
   geom_line(data = data.frame(x = data$date, y = t_time_series_cleaned[[4]]),
             aes(x, y, colour = "po zmianach")) +
   geom_line(data = data.frame(x = data$date, y = t_time_series[[4]]), 
-            aes(x, y, colour = "przed zmianami")) + 
+            aes(x, y, colour = "przed zmianami"), alpha = 0.6) + 
+  scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
+  labs(title = "", x = "data", y = "liczba testów", color = "Szereg czasowy:") +
+  theme(plot.title = element_text(size = 10), axis.text.x = element_markdown(angle = 45, hjust = 1))
+
+ggplot() +
+  geom_line(data = data.frame(x = data$date, y = t_time_series[[4]]), 
+            aes(x, y)) + 
+  scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
+  labs(title = "", x = "data", y = "liczba testów") +
+  theme(plot.title = element_text(size = 10), axis.text.x = element_markdown(angle = 45, hjust = 1))
+
+ggplot() +
+  geom_line(data = data.frame(x = data$date, y = t_time_series_cleaned[[4]]),
+            aes(x, y)) +
   scale_x_date(breaks = x_labs, labels = x_labs, date_labels = "%d-%m-%Y") +
   labs(title = "", x = "data", y = "liczba testów", color = "Szereg czasowy:") +
   theme(plot.title = element_text(size = 10), axis.text.x = element_markdown(angle = 45, hjust = 1))

@@ -19,6 +19,12 @@ for(i in 1:length(d_time_series)) {
   errors_drift <- calculate_ex_post_errors(deaths_forecasts[[i]]$drift, test)
   errors <- rbind(errors_naive, errors_snaive, errors_drift)
   save_df_to_csv(errors, paste0("d", i, "_naive_methods_errors.csv"), "naive_methods")
+  save_forecasts_to_csv(deaths_forecasts[[i]]$naive,
+                        paste0("d", i, "_naive_forecasts.csv"), "naive_methods/forecasts")
+  save_forecasts_to_csv(deaths_forecasts[[i]]$snaive,
+                        paste0("d", i, "_snaive_forecasts.csv"), "naive_methods/forecasts")
+  save_forecasts_to_csv(deaths_forecasts[[i]]$drift,
+                        paste0("d", i, "_drift_forecasts.csv"), "naive_methods/forecasts")
   cat("Mierniki trafności prognoz wygasłych liczb śmierci dla", i, "fali\n")
   cat("prosta metoda naiwna:\n")
   show(errors_naive)

@@ -298,19 +298,7 @@ find_best_forecast <- function(forecasts_list, test_ts) {
 #funkcje zapisu danych do pliku-------------------------------------------------
 
 #funkcja zapisująca prognozy do pliku csv o podanej nazwie w podanym podkatalogu
-save_forecasts_to_csv <- function(forecast, file_name, subdir = "") {
-  intervals_list <- list()
-  for(i in 1:length(forecast$level)) {
-    intervals_list[[i]] <- data.frame(
-      forecast$lower[, i],
-      forecast$upper[, i]
-    )
-    names <- c(
-      paste("lower", forecast$level[i], "%", sep = ""),
-      paste("upper", forecast$level[i], "%", sep = "")
-    )
-    colnames(intervals_list[[i]]) <- names
-  }
+save_forecasts_to_csv <- function(forecast, file_name, subdir = "", PI = FALSE) {
   start_date <- as.Date(get_date_of_obs_ts(get_index_of_obs(forecast$mean, 1)))
   finish_date <- as.Date(get_date_of_obs_ts(get_index_of_obs(forecast$mean, length(forecast$mean))))
   dates <- as.Date(c(seq(start_date, finish_date, 1)))
@@ -319,10 +307,25 @@ save_forecasts_to_csv <- function(forecast, file_name, subdir = "") {
     date = format(dates, "%d.%m.%Y"),
     prediction = forecast$mean
   )
+  if(!is.null(forecast$level) && PI) {
+    intervals_list <- list()
+    for(i in 1:length(forecast$level)) {
+      intervals_list[[i]] <- data.frame(
+        forecast$lower[, i],
+        forecast$upper[, i]
+      )
+      names <- c(
+        paste("lower", forecast$level[i], "%", sep = ""),
+        paste("upper", forecast$level[i], "%", sep = "")
+      )
+      colnames(intervals_list[[i]]) <- names
+    }
+    df <- cbind(df, intervals_list)
+  }
   if(stringi::stri_length(subdir) > 0)
     subdir <- paste0(subdir, "/")
   directory <- paste("data_sheets/", subdir, file_name, sep = "")
-  write.csv2(cbind(df, intervals_list), directory, row.names = FALSE)
+  write.csv2(df, directory, row.names = FALSE)
 }
 
 #funkcja zapisująca podaną ramkę danych do pliku csv o podanej nazwie

@@ -3,6 +3,8 @@
 #szeregi dla 3 fali: train=05.03.2020-15.03.2021, test=16.03.2021-14.04.2021
 #szeregi dla 4 fali: train=05.03.2020-25.09.2021, test=26.09.2021-25.10.2021
 
+#dopasowywanie modelu regresji liniowej: zakażenia = f(testy)
+
 label_size <- 10
 title_size <- 11
 model_list <- list()
@@ -32,19 +34,15 @@ for(i in 1:length(c_time_series)) {
             plot.title = element_text(size = title_size))
   model_list[[i]] <- tslm(c_train ~ t_train)
   forecasts[[i]] <- forecast(model_list[[i]], newdata = data.frame(t_train = t_test))
-  forecasts_plots[[i]] <- autoplot(c_train) + 
-                                autolayer(forecasts[[i]]) +
-                                ggtitle(plot2_title) +
-                                xlab("numer tygodnia") + ylab("liczba zakażeń") +
-                                theme(axis.title.x = element_text(size = label_size), 
-                                      axis.title.y = element_text(size = label_size),
-                                      plot.title = element_text(size = title_size))
+  forecasts_plots[[i]] <- generate_forecast_plot(forecasts[[i]],
+                                                 plot2_title,
+                                                 "liczba zakażeń") +
+    set_titles_size(main = title_size, axis = label_size)
   test_comparison_plots[[i]] <- generate_test_comparison_plot(c_test, forecasts[[i]],
                                                               title = plot3_title,
                                                               ylab = "liczba zakażeń") +
-                                        theme(axis.title.x = element_text(size = label_size), 
-                                              axis.title.y = element_text(size = label_size),
-                                              plot.title = element_text(size = title_size))
+                                        set_titles_size(main = title_size,
+                                                        axis = label_size)
 }
 grid.arrange(grobs = scatterplots, ncol = 1)
 grid.arrange(grobs = forecasts_plots, ncol = 1)
