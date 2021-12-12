@@ -90,9 +90,9 @@ for(i in 1:length(best_forecast_models)) {
   plots[[2]] <- generate_forecast_plot(forecast, plot2_title, "liczba śmierci")
   plots[[3]] <- generate_test_comparison_plot(test, forecast, plot3_title, "liczba śmierci")
   grid.arrange(grobs = plots, ncol = 1)
-  # save_forecasts_to_csv(forecast, paste0("d", i, "_regression_forecasts.csv"), "regression")
-  # save_df_to_csv(calculate_ex_post_errors(forecast, test), paste0("d", i, "_regression_errors.csv"),
-  #                "regression")
+  save_forecasts_to_csv(forecast, paste0("d", i, "_regression_forecasts.csv"), "regression/forecasts")
+  save_df_to_csv(calculate_ex_post_errors(forecast, test), paste0("d", i, "_regression_errors.csv"),
+                 "regression")
 }
 
 
