@@ -3,39 +3,41 @@
 #wyłoniony zostanie lepszy z nich na podstawie jakości generowanych prognoz na okres 30 dni
 
 #wartości startowe wag sieci są losowe dla każdego wywołania funkcji nnetar
-#dlatego porównanie modeli z oraz bez dodatkowego regresora zostanie wykonane po 100 razy
+#dlatego porównanie modeli z oraz bez dodatkowego regresora zostanie wykonane do 100 razy
+#wybrany zostanie model, który okaże się lepszy 51 razy
 
 
 best_models <- list()
 for(i in 1:length(c_time_series)) {
   c_train <- window(c_time_series[[i]], 
-                    end = weekly_freq_day_number(length(c_time_series[[i]]) - 30))
+                    end = weekly_freq_day_number(
+                      length(c_time_series[[i]]) - 30))
   t_train <- window(t_time_series_cleaned[[i]], 
-                    end = weekly_freq_day_number(length(t_time_series_cleaned[[i]]) - 30))
+                    end = weekly_freq_day_number(
+                      length(t_time_series_cleaned[[i]]) - 30))
   c_test <- window(c_time_series[[i]],
-                   start = weekly_freq_day_number(length(c_time_series[[i]]) - 29))
+                   start = weekly_freq_day_number(
+                     length(c_time_series[[i]]) - 29))
   t_test <- window(t_time_series_cleaned[[i]],
-                   start = weekly_freq_day_number(length(t_time_series_cleaned[[i]]) - 29))
+                   start = weekly_freq_day_number(
+                     length(t_time_series_cleaned[[i]]) - 29))
   model_no_reg <- 0
   model_reg <- 0
-  iter <- 100
-  for(j in 1:iter) {
+  for(j in 1:100) {
     cat(i,j, "\n")
     auto_model <- nnetar(c_train)
     auto_model_reg <- nnetar(c_train, xreg = t_train)
-    forecast1 <- forecast(auto_model, h = 30)
-    forecast2 <- forecast(auto_model_reg, xreg = t_test)
-    ex_post_errors1 <- calculate_ex_post_errors(forecast1, c_test)
-    ex_post_errors2 <- calculate_ex_post_errors(forecast2, c_test)
-    model1_points <- length(which((ex_post_errors1[, 2:5] < ex_post_errors2[, 2:5]) == TRUE))
-    model2_points <- length(which((ex_post_errors1[, 2:5] > ex_post_errors2[, 2:5]) == TRUE))
-    if(model1_points < model2_points)
+    forecasts <- list(
+      forecast1 = forecast(auto_model, h = 30),
+      forecast2 = forecast(auto_model_reg, xreg = t_test)
+    )
+    if(find_best_forecast(forecasts, c_test) == 2)
       model_reg <- model_reg + 1
     else
       model_no_reg <- model_no_reg + 1
     cat("model_no_reg: ", model_no_reg, "\n")
     cat("model_reg: ", model_reg, "\n")
-    if((model_no_reg > iter/2)|(model_reg > iter/2))
+    if((model_no_reg > 50)||(model_reg > 50))
       break
   }
   if(model_reg > model_no_reg)
@@ -81,8 +83,14 @@ for(i in 1:length(best_models)) {
                                   "liczba zakażeń") + set_titles_size()
   )
   grid.arrange(grobs = plots, ncol = 1)
+  save_forecasts_to_csv(predictions, 
+                        paste0("c", i, "_nnetar_forecasts.csv"), 
+                        "neural_network_ar")
+  save_df_to_csv(calculate_ex_post_errors(predictions, c_test),
+                 paste0("c", i, "_nnetar_errors.csv"),
+                 "neural_network_ar")
 }
 
 rm(best_models, c_train, t_train, c_test, t_test, model_no_reg, model_reg, iter)
 rm(auto_model, auto_model_reg, forecast1, forecast2, i, j)
-rm(ex_post_errors1, ex_post_errors2, model1_points, model2_points, mes, predictions, plots)
+rm(mes, predictions, plots, forecasts)
