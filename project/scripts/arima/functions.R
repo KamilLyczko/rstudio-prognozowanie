@@ -66,6 +66,8 @@ get_arima_model_type <- function(fit) {
     model <- paste0(model, "(", seasonal[1], ",",
                     seasonal[2], ",", seasonal[3], 
                     ")[", orders[5], "]")
+  if("drift" %in% names(fit$coef))
+    model <- paste0(model, " ze stałą")
   return(model)
 }
 
@@ -92,4 +94,6 @@ generate_autocorrelation_plots <- function(ts, title = "", ylab = "") {
   )
   grid.arrange(grobs = plots, ncol = 1)
 }
+
+
 
